@@ -51,3 +51,47 @@ main {
   color: #666;
   margin: 0;
 }
+.banner1-home {
+  max-width: 1398px;
+  height: 328px;
+  display: flex;
+  margin: 0 auto;
+  padding: 10px 10px;
+  justify-content: flex-start;
+  align-items: center;
+  background: #0a0a0a;
+}
+.left-side-content {
+  padding: 15px;
+  width: 699px;
+  align-items: start;
+  h1 {
+    font-family: var(--Montserrat);
+    font-size: 30px;
+    font-weight: 600;
+    text-align: left;
+  }
+  p {
+    width: 300px;
+  }
+  span {
+    padding-right: 10px;
+    font-weight: 700;
+  }
+  button {
+    padding: 10px 20px;
+    background: blue;
+    border-radius: 15px;
+    cursor: pointer;
+  }
+}
+.right-side-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 699px;
+  img {
+    max-width: 100%;
+    max-height: 300px;
+  }
+}
