@@ -1,0 +1,144 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 16px 20px;
+  gap: 16px;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  text-decoration: none;
+
+  &:hover {
+    color: #007bff;
+  }
+}
+
+.navLinks {
+  display: flex;
+  gap: 16px;
+
+  a {
+    color: #000;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #007bff;
+    }
+  }
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.searchContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+
+  /* При фокусі на searchContainer ховаємо leftSection */
+  &:focus-within {
+    ~ .leftSection {
+      display: none;
+    }
+  }
+}
+
+.searchInput {
+  padding: 8px 8px 8px 32px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f1f1f1;
+  font-size: 14px;
+  width: 200px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+
+  &:focus {
+    width: 400px;
+    background-color: #e0e0e0;
+    outline: none;
+  }
+}
+
+.searchIcon {
+  position: absolute;
+  left: 8px;
+  color: #666;
+  width: 16px;
+  height: 16px;
+}
+
+.cartLink,
+.loginLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #000;
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    color: #007bff;
+
+    svg {
+      color: #007bff;
+    }
+  }
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .leftSection {
+    flex: 1 0 100%;
+    justify-content: center;
+  }
+
+  .navLinks {
+    flex: 1 0 100%;
+    justify-content: center;
+  }
+
+  .searchInput {
+    width: 150px;
+
+    &:focus {
+      width: 250px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .searchInput {
+    width: 120px;
+
+    &:focus {
+      width: 200px;
+    }
+  }
+}

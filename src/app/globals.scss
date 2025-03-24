@@ -27,15 +27,6 @@ body {
   font-family: var(--Montserrat), Arial, Helvetica, sans-serif;
 }
 
-nav {
-  a {
-    @apply text-black hover:text-blue-500 transition-colors;
-  }
-
-  svg {
-    @apply text-black hover:text-blue-500 transition-colors;
-  }
-}
 main {
   flex: 1;
 }
