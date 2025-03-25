@@ -160,7 +160,157 @@
   }
 }
 
+/* Стилі для бічної панелі */
+.mainSection {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.sidebar {
+  flex: 0 0 250px; /* Фіксована ширина бічної панелі */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.clearFilterButton {
+  font-size: 14px;
+  color: #666;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 6px 12px;
+  cursor: pointer;
+  align-self: flex-start;
+
+  &:hover {
+    background-color: #f1f1f1;
+  }
+}
+
+.filterTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.filterList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filterItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filterName {
+  font-size: 14px;
+  color: #333;
+}
+
+.filterCount {
+  font-size: 14px;
+  color: #666;
+}
+
+.colorCircle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  justify-content: flex-start;
+  margin-right: 8px;
+  border: 1px solid #ddd;
+}
+
+.applyFiltersButton {
+  font-size: 14px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 16px;
+  padding: 8px 16px;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+
+.productsGrid {
+  flex: 1; /* Займає решту простору */
+}
+
 /* Адаптивність */
+@media (max-width: 768px) {
+  .mainSection {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    flex: 1 0 auto;
+  }
+
+  .filterTitle {
+    font-size: 14px;
+  }
+
+  .filterName,
+  .filterCount {
+    font-size: 12px;
+  }
+
+  .colorCircle {
+    width: 16px;
+    height: 16px;
+  }
+
+  .applyFiltersButton {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .filterTitle {
+    font-size: 12px;
+  }
+
+  .filterName,
+  .filterCount {
+    font-size: 10px;
+  }
+
+  .colorCircle {
+    width: 12px;
+    height: 12px;
+  }
+
+  .applyFiltersButton {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+}
+
+/* Адаптивність для верхньої частини (з попереднього коду) */
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
