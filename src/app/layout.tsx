@@ -41,7 +41,7 @@ export default function RootLayout({
             <Link href="/cart" className={styles.cartLink}>
               <ShoppingCart />
             </Link>
-            <Link href="/signin" className={styles.loginLink}>
+            <Link href="/loginPage" className={styles.loginLink}>
               <User />
               <span>Sign In</span>
             </Link>

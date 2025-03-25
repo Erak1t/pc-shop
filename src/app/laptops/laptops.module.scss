@@ -1,0 +1,218 @@
+.topSection {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.breadcrumb {
+  flex: 0 0 auto;
+}
+
+.backLink {
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.navControls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.itemsCount {
+  font-size: 14px;
+  color: #666;
+}
+
+.sortContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sortLabel {
+  font-size: 14px;
+  color: #666;
+}
+
+.sortSelect {
+  font-size: 14px;
+  padding: 4px 8px;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    background-color: #e0e0e0;
+  }
+}
+
+.viewContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.viewLabel {
+  font-size: 14px;
+  color: #666;
+}
+
+.viewSelect {
+  font-size: 14px;
+  padding: 4px 8px;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    background-color: #e0e0e0;
+  }
+}
+
+.viewToggle {
+  display: flex;
+  gap: 4px;
+}
+
+.gridViewButton,
+.listViewButton {
+  width: 24px;
+  height: 24px;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.filtersLabel {
+  font-size: 14px;
+  color: #666;
+}
+
+.clearFiltersButton {
+  font-size: 14px;
+  color: #007bff;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.filterButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.filterButton {
+  font-size: 14px;
+  padding: 6px 12px;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .navControls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .itemsCount,
+  .sortLabel,
+  .viewLabel,
+  .sortSelect,
+  .viewSelect {
+    font-size: 12px;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .filterButton {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 18px;
+  }
+
+  .itemsCount,
+  .sortLabel,
+  .viewLabel,
+  .sortSelect,
+  .viewSelect {
+    font-size: 10px;
+  }
+
+  .filterButton {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+}
