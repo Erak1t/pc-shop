@@ -48,7 +48,7 @@
 
 .searchContainer {
   position: relative;
-  background-color: white;
+  background-color: #ffffff;
   color: #000;
   display: flex;
   align-items: center;
@@ -58,7 +58,7 @@
   &:focus-within {
     ~ .leftSection {
       display: none;
-      background-color: #fffcfc;
+      background-color: #ffffff;
     }
   }
 }
@@ -67,7 +67,7 @@
   padding: 8px 8px 8px 32px;
   border: none;
   border-radius: 4px;
-  background-color: #fffcfc;
+  background-color: #ffffff;
   color: black;
   font-size: 14px;
   width: 200px;
@@ -83,7 +83,7 @@
 .searchIcon {
   position: absolute;
   left: 8px;
-  color: #666;
+  color: #000000;
   width: 16px;
   height: 16px;
 }
