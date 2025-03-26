@@ -10,6 +10,7 @@ interface Product {
   rating: number;
   reviews: number;
   price: number;
+  isNew?: boolean;
 }
 
 export default function ProductCard({ product }: { product: Product }) {
