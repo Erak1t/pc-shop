@@ -1,5 +1,37 @@
 import Link from "next/link";
-import styles from "./laptops.module.scss";
+import ProductCard from "../../components/ProductCard/ProductCard";
+import styles from "./Laptops.module.scss";
+import productsData from "../../data/products.json";
+
+// Тип для продукту
+interface Product {
+  id: number;
+  name: string;
+  image: string;
+  stock: string;
+  rating: number;
+  reviews: number;
+  price: number;
+  category: string;
+  color: string;
+  priceRange: string;
+}
+
+// Фільтруємо лише ноутбуки
+const laptops = productsData.filter(
+  (product: Product) => product.category === "Laptops"
+);
+
+// Генеруємо унікальні категорії, цінові діапазони і кольори для фільтрів
+const categories = Array.from(
+  new Set(productsData.map((product: Product) => product.category))
+);
+const priceRanges = Array.from(
+  new Set(productsData.map((product: Product) => product.priceRange))
+);
+const colors = Array.from(
+  new Set(productsData.map((product: Product) => product.color))
+);
 
 export default function Laptops() {
   return (
@@ -11,9 +43,11 @@ export default function Laptops() {
               Back
             </Link>
           </div>
-          <h1 className={styles.title}>MSI PS Series (20)</h1>
+          <h1 className={styles.title}>Laptops ({laptops.length})</h1>
           <div className={styles.navControls}>
-            <span className={styles.itemsCount}>Items 1-35 of 61</span>
+            <span className={styles.itemsCount}>
+              Items 1-{laptops.length} of {laptops.length}
+            </span>
             <div className={styles.sortContainer}>
               <label className={styles.sortLabel}>Sort By</label>
               <select className={styles.sortSelect}>
@@ -41,7 +75,9 @@ export default function Laptops() {
           <span className={styles.filtersLabel}>Filters</span>
           <button className={styles.clearFiltersButton}>Clear All</button>
           <div className={styles.filterButtons}>
-            <button className={styles.filterButton}>Custom PCs (24)</button>
+            <button className={styles.filterButton}>
+              Laptops ({laptops.length})
+            </button>
           </div>
         </div>
       </section>
@@ -55,56 +91,34 @@ export default function Laptops() {
           <div className={styles.filterGroup}>
             <h3 className={styles.filterTitle}>Category</h3>
             <ul className={styles.filterList}>
-              <li className={styles.filterItem}>
-                <span className={styles.filterName}>Custom PCs</span>
-                <span className={styles.filterCount}>(15)</span>
-              </li>
-              <li className={styles.filterItem}>
-                <span className={styles.filterName}>MSI All-in-One PCs</span>
-                <span className={styles.filterCount}>(45)</span>
-              </li>
-              <li className={styles.filterItem}>
-                <span className={styles.filterName}>HP/Compaq PCs</span>
-                <span className={styles.filterCount}>(1)</span>
-              </li>
+              {categories.map((category) => {
+                const count = productsData.filter(
+                  (product: Product) => product.category === category
+                ).length;
+                return (
+                  <li key={category} className={styles.filterItem}>
+                    <span className={styles.filterName}>{category}</span>
+                    <span className={styles.filterCount}>({count})</span>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
           <div className={styles.filterGroup}>
             <h3 className={styles.filterTitle}>Price</h3>
             <ul className={styles.filterList}>
-              <li className={styles.filterItem}>
-                <span className={styles.filterName}>$0.00 - $1,000.00</span>
-                <span className={styles.filterCount}>(19)</span>
-              </li>
-              <li className={styles.filterItem}>
-                <span className={styles.filterName}>$1,000.00 - $2,000.00</span>
-                <span className={styles.filterCount}>(21)</span>
-              </li>
-              <li className={styles.filterItem}>
-                <span className={styles.filterName}>$2,000.00 - $3,000.00</span>
-                <span className={styles.filterCount}>(9)</span>
-              </li>
-              <li className={styles.filterItem}>
-                <span className={styles.filterName}>$3,000.00 - $4,000.00</span>
-                <span className={styles.filterCount}>(6)</span>
-              </li>
-              <li className={styles.filterItem}>
-                <span className={styles.filterName}>$4,000.00 - $5,000.00</span>
-                <span className={styles.filterCount}>(3)</span>
-              </li>
-              <li className={styles.filterItem}>
-                <span className={styles.filterName}>$5,000.00 - $6,000.00</span>
-                <span className={styles.filterCount}>(1)</span>
-              </li>
-              <li className={styles.filterItem}>
-                <span className={styles.filterName}>$6,000.00 - $7,000.00</span>
-                <span className={styles.filterCount}>(1)</span>
-              </li>
-              <li className={styles.filterItem}>
-                <span className={styles.filterName}>$7,000.00 And Above</span>
-                <span className={styles.filterCount}>(1)</span>
-              </li>
+              {priceRanges.map((range) => {
+                const count = productsData.filter(
+                  (product: Product) => product.priceRange === range
+                ).length;
+                return (
+                  <li key={range} className={styles.filterItem}>
+                    <span className={styles.filterName}>{range}</span>
+                    <span className={styles.filterCount}>({count})</span>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -112,14 +126,13 @@ export default function Laptops() {
             <h3 className={styles.filterTitle}>Color</h3>
             <ul className={styles.filterList}>
               <li className={styles.filterItem}>
-                <span
-                  className={styles.colorCircle}
-                  style={{ backgroundColor: "#000" }}
-                ></span>
-                <span
-                  className={styles.colorCircle}
-                  style={{ backgroundColor: "#ff0000" }}
-                ></span>
+                {colors.map((color) => (
+                  <span
+                    key={color}
+                    className={styles.colorCircle}
+                    style={{ backgroundColor: color }}
+                  ></span>
+                ))}
               </li>
             </ul>
           </div>
@@ -141,9 +154,10 @@ export default function Laptops() {
           </div>
         </aside>
 
-        {/* Поки що залишимо місце для списку товарів */}
         <div className={styles.productsGrid}>
-          {/* Список товарів додамо в наступному кроці */}
+          {laptops.map((laptop: Product) => (
+            <ProductCard key={laptop.id} product={laptop} />
+          ))}
         </div>
       </section>
     </main>
