@@ -51,7 +51,9 @@ export default function NewProducts() {
       <div className={styles.sliderContainer}>
         <div className={styles.slider} ref={sliderRef}>
           {newProducts.map((product: Product) => (
-            <ProductCard key={product.id} product={product} />
+            <div className={styles.productCardWrapper} key={product.id}>
+              <ProductCard product={product} />
+            </div>
           ))}
         </div>
         <button className={styles.prevButton} onClick={scrollLeft}>
