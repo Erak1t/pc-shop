@@ -1,21 +1,46 @@
 import styles from "./Banner1.module.scss";
+import productsData from "../../data/products.json";
+
+// Тип для продукту
+interface Product {
+  id: number;
+  name: string;
+  image: string;
+  stock: string;
+  rating: number;
+  reviews: number;
+  price: number;
+  category: string;
+  color: string;
+  priceRange: string;
+  isNew?: boolean;
+  description?: string;
+}
+
+// Знаходимо продукт "Apple MacBook Air 13-inch M2 2023"
+const featuredProduct = productsData.find(
+  (product: Product) => product.id === 2
+) as Product;
 
 export default function Banner() {
+  if (!featuredProduct) {
+    return <div>Product not found</div>;
+  }
+
   return (
     <section className={styles.banner}>
       <div className={styles.textContent}>
-        <h1>New High-Performance Laptop</h1>
-        <p>
-          Experience the ultimate gaming and productivity with our latest laptop
-          model
-        </p>
-        <span className={styles.price}>$999.99</span>
+        <h1>{featuredProduct.name}</h1>
+        <p>{featuredProduct.description || "No description available"}</p>
+        <span className={styles.price}>
+          ${featuredProduct.price.toFixed(2)}
+        </span>
         <button className={styles.buyButton}>Buy Now</button>
       </div>
       <div className={styles.imageContent}>
         <img
-          src="/images/laptop-placeholder.jpg"
-          alt="Product"
+          src={featuredProduct.image}
+          alt={featuredProduct.name}
           className={styles.productImage}
         />
       </div>

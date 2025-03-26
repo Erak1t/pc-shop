@@ -23,7 +23,8 @@
     "category": "Laptops",
     "color": "silver",
     "priceRange": "$1,001.00 - $2,000.00",
-    "isNew": true
+    "isNew": true,
+    "description": "Experience the ultimate performance with the new Apple MacBook Air, powered by the M2 chip."
   },
   {
     "id": 3,
