@@ -4,18 +4,11 @@
   padding: 0 20px;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
 .breadcrumb {
-  flex: 0 0 auto;
+  margin-bottom: 10px;
 }
 
-.backLink {
+.breadcrumbLink {
   font-size: 14px;
   color: #007bff;
   text-decoration: none;
@@ -23,6 +16,19 @@
   &:hover {
     text-decoration: underline;
   }
+}
+
+.breadcrumbSeparator {
+  font-size: 14px;
+  color: #666;
+  margin: 0 5px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .title {
@@ -35,7 +41,7 @@
 .navControls {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 10px; /* Зменшив відстань між елементами */
 }
 
 .itemsCount {
@@ -46,7 +52,7 @@
 .sortContainer {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 5px; /* Зменшив відстань */
 }
 
 .sortLabel {
@@ -57,21 +63,21 @@
 .sortSelect {
   font-size: 14px;
   padding: 4px 8px;
-  background-color: #f1f1f1;
-  border: none;
+  background-color: #fff;
+  border: 1px solid #ddd; /* Додав рамку */
   border-radius: 4px;
   cursor: pointer;
 
   &:focus {
     outline: none;
-    background-color: #e0e0e0;
+    border-color: #007bff;
   }
 }
 
 .viewContainer {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 5px; /* Зменшив відстань */
 }
 
 .viewLabel {
@@ -82,14 +88,14 @@
 .viewSelect {
   font-size: 14px;
   padding: 4px 8px;
-  background-color: #f1f1f1;
-  border: none;
+  background-color: #fff;
+  border: 1px solid #ddd; /* Додав рамку */
   border-radius: 4px;
   cursor: pointer;
 
   &:focus {
     outline: none;
-    background-color: #e0e0e0;
+    border-color: #007bff;
   }
 }
 
@@ -120,7 +126,7 @@
 .filters {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 10px; /* Зменшив відстань */
   margin-bottom: 20px;
 }
 
@@ -148,16 +154,24 @@
 
 .filterButton {
   font-size: 14px;
-  padding: 6px 12px;
-  background-color: #f1f1f1;
+  padding: 4px 10px; /* Зменшив відступи */
+  background-color: #e0e0e0; /* Сірий фон */
   border: none;
   border-radius: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 
   &:hover {
-    background-color: #e0e0e0;
+    background-color: #d0d0d0;
   }
+}
+
+.removeFilter {
+  font-size: 16px;
+  color: #e63946; /* Червоний "X" */
+  line-height: 1;
 }
 
 .mainSection {
@@ -256,11 +270,9 @@
 .productsGrid {
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(200px, 1fr)
-  ); /* Зменшив ширину карток до 200px */
-  gap: 15px; /* Зменшив відстань між картками */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px; /* Збільшив відстань між картками */
+  margin-bottom: 20px;
 }
 
 /* Адаптивність */
@@ -293,11 +305,8 @@
   }
 
   .productsGrid {
-    grid-template-columns: repeat(
-      auto-fill,
-      minmax(150px, 1fr)
-    ); /* Зменшив до 150px на планшетах */
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
   }
 }
 
@@ -322,11 +331,8 @@
   }
 
   .productsGrid {
-    grid-template-columns: repeat(
-      auto-fill,
-      minmax(120px, 1fr)
-    ); /* Зменшив до 120px на мобільних */
-    gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
   }
 }
 

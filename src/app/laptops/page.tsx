@@ -37,19 +37,23 @@ export default function Laptops() {
   return (
     <main>
       <section className={styles.topSection}>
+        <div className={styles.breadcrumb}>
+          <Link href="/" className={styles.breadcrumbLink}>
+            Home
+          </Link>
+          <span className={styles.breadcrumbSeparator}> &gt; </span>
+          <Link href="/laptops" className={styles.breadcrumbLink}>
+            Laptops
+          </Link>
+        </div>
         <div className={styles.header}>
-          <div className={styles.breadcrumb}>
-            <Link href="/" className={styles.backLink}>
-              Back
-            </Link>
-          </div>
           <h1 className={styles.title}>Laptops ({laptops.length})</h1>
           <div className={styles.navControls}>
             <span className={styles.itemsCount}>
               Items 1-{laptops.length} of {laptops.length}
             </span>
             <div className={styles.sortContainer}>
-              <label className={styles.sortLabel}>Sort By</label>
+              <label className={styles.sortLabel}>Sort By:</label>
               <select className={styles.sortSelect}>
                 <option value="position">Position</option>
                 <option value="price-low-high">Price: Low to High</option>
@@ -58,7 +62,7 @@ export default function Laptops() {
               </select>
             </div>
             <div className={styles.viewContainer}>
-              <label className={styles.viewLabel}>Show</label>
+              <label className={styles.viewLabel}>Show:</label>
               <select className={styles.viewSelect}>
                 <option value="10">10 per page</option>
                 <option value="20">20 per page</option>
@@ -72,13 +76,19 @@ export default function Laptops() {
           </div>
         </div>
         <div className={styles.filters}>
-          <span className={styles.filtersLabel}>Filters</span>
-          <button className={styles.clearFiltersButton}>Clear All</button>
+          <span className={styles.filtersLabel}>Filter</span>
           <div className={styles.filterButtons}>
             <button className={styles.filterButton}>
-              Laptops ({laptops.length})
+              Laptops ({laptops.length}){" "}
+              <span className={styles.removeFilter}>×</span>
+            </button>
+            {/* Приклад інших фільтрів */}
+            <button className={styles.filterButton}>
+              In Stock ({laptops.filter((l) => l.stock === "in stock").length}){" "}
+              <span className={styles.removeFilter}>×</span>
             </button>
           </div>
+          <button className={styles.clearFiltersButton}>Clear All</button>
         </div>
       </section>
 
