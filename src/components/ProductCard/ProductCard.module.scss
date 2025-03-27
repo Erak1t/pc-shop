@@ -1,117 +1,185 @@
-.productCard {
-  margin-left: 0; /* Прибрав margin-left, оскільки він не потрібен у сітці */
-  flex: 0 0 auto; /* Змінив, щоб картка адаптувалася до ширини сітки */
-  width: 100%; /* Картка займає всю ширину комірки сітки */
+.card {
   background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 10px;
+  border-radius: 12px; /* Закруглені кути */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Легка тінь */
+  overflow: hidden; /* Щоб контент не виходив за межі */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Анімація при наведенні */
+  position: relative; /* Для позиціонування позначки "New" */
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  height: 100%; /* Щоб картка займала всю доступну висоту */
+
+  &:hover {
+    transform: translateY(-5px); /* Підняття картки при наведенні */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Посилена тінь */
+  }
 }
 
-.imageContainer {
+.imageWrapper {
   position: relative;
-}
-
-.stockStatus {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.stockText {
-  font-size: 10px;
-  font-weight: 500;
-}
-
-.inStock {
-  color: #28a745;
-}
-
-.checkAvailability {
-  color: #666;
+  width: 100%;
+  height: 150px; /* Фіксована висота для зображення */
+  background-color: #f9f9f9; /* Легкий фон для зображення */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 .productImage {
   width: 100%;
-  height: 150px;
-  object-fit: contain;
+  height: 100%;
+  object-fit: contain; /* Зображення масштабується, зберігаючи пропорції */
+  transition: transform 0.3s ease; /* Анімація масштабування */
+
+  .card:hover & {
+    transform: scale(1.05); /* Збільшення зображення при наведенні */
+  }
+}
+
+.newTag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #007bff; /* Синій фон для позначки */
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+}
+
+.details {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1; /* Щоб деталі займали решту простору */
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Обмеження на 2 рядки */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .rating {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
 .stars {
-  color: #f5c518;
-  font-size: 12px;
+  color: #f5c518; /* Золотий колір для зірок */
+  font-size: 14px;
 }
 
 .reviews {
-  font-size: 10px;
+  font-size: 12px;
   color: #666;
 }
 
-.productName {
-  font-size: 12px;
+.price {
+  font-size: 16px;
   font-weight: 600;
-  color: #333;
-  text-overflow: initial;
-  white-space: normal;
-  line-height: 1.2;
+  color: #e63946; /* Червоний колір для ціни */
 }
 
-.price {
+.stock {
+  margin-top: 5px;
+}
+
+.stockText {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.inStock {
+  color: #28a745; /* Зелений для "in stock" */
+}
+
+.outOfStock {
+  color: #e63946; /* Червоний для "out of stock" */
+}
+
+.viewDetailsButton {
+  display: inline-block;
+  background: linear-gradient(
+    90deg,
+    #007bff,
+    #00c4ff
+  ); /* Градієнт для кнопки */
+  color: #fff;
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 5px;
   font-size: 14px;
-  font-weight: 700;
-  color: #e63946;
+  font-weight: 500;
+  text-decoration: none;
+  margin-top: auto; /* Кнопка притискається донизу картки */
+  transition: background 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background: linear-gradient(
+      90deg,
+      #0056b3,
+      #0099cc
+    ); /* Темніший градієнт при наведенні */
+    transform: translateY(-2px); /* Легке підняття кнопки */
+  }
 }
 
 /* Адаптивність */
 @media (max-width: 768px) {
-  .productCard {
-    padding: 8px;
+  .card {
+    border-radius: 8px;
   }
 
-  .productImage {
+  .imageWrapper {
     height: 120px;
   }
 
-  .productName {
-    font-size: 11px;
+  .name {
+    font-size: 14px;
   }
 
   .price {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .stars {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .reviews {
-    font-size: 9px;
+    font-size: 10px;
+  }
+
+  .stockText {
+    font-size: 10px;
+  }
+
+  .viewDetailsButton {
+    font-size: 12px;
+    padding: 6px 10px;
   }
 }
 
 @media (max-width: 480px) {
-  .productCard {
-    padding: 6px;
+  .imageWrapper {
+    height: 100px;
   }
 
-  .productImage {
-    height: 80px;
-  }
-
-  .productName {
-    font-size: 10px;
+  .name {
+    font-size: 12px;
   }
 
   .price {
@@ -124,5 +192,14 @@
 
   .reviews {
     font-size: 8px;
+  }
+
+  .stockText {
+    font-size: 8px;
+  }
+
+  .viewDetailsButton {
+    font-size: 10px;
+    padding: 5px 8px;
   }
 }
