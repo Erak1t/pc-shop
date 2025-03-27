@@ -8,6 +8,8 @@
   display: flex;
   flex-direction: column;
   height: 100%; /* Щоб картка займала всю доступну висоту */
+  cursor: pointer; /* Показуємо, що картка клікабельна */
+  text-decoration: none; /* Прибираємо підкреслення для Link */
 
   &:hover {
     transform: translateY(-2px); /* Підняття картки при наведенні */
@@ -30,7 +32,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain; /* Зображення масштабується, зберігаючи пропорції */
-  transition: transform 0.3s ease; /* Анімація масштабування */
+  transition: transform 0.3s ease; /* Анітація масштабування */
   z-index: 1; /* Зображення нижче за позначку "New" */
 }
 
@@ -112,33 +114,6 @@
   color: #e63946; /* Червоний для "out of stock" */
 }
 
-.viewDetailsButton {
-  display: inline-block;
-  background: linear-gradient(
-    90deg,
-    #007bff,
-    #00c4ff
-  ); /* Градієнт для кнопки */
-  color: #fff;
-  text-align: center;
-  padding: 8px 12px;
-  border-radius: 5px;
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  margin-top: auto; /* Кнопка притискається донизу картки */
-  transition: background 0.3s ease, transform 0.2s ease;
-
-  &:hover {
-    background: linear-gradient(
-      90deg,
-      #0056b3,
-      #0099cc
-    ); /* Темніший градієнт при наведенні */
-    transform: translateY(-2px); /* Легке підняття кнопки */
-  }
-}
-
 /* Адаптивність */
 @media (max-width: 768px) {
   .card {
@@ -168,11 +143,6 @@
   .stockText {
     font-size: 10px;
   }
-
-  .viewDetailsButton {
-    font-size: 12px;
-    padding: 6px 10px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -198,10 +168,5 @@
 
   .stockText {
     font-size: 8px;
-  }
-
-  .viewDetailsButton {
-    font-size: 10px;
-    padding: 5px 8px;
   }
 }

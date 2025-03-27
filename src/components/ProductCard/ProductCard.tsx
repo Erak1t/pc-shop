@@ -23,7 +23,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <div className={styles.card}>
+    <Link href={`/products/${product.id}`} className={styles.card}>
       <div className={styles.imageWrapper}>
         {product.isNew && <span className={styles.newTag}>New</span>}
         <Image
@@ -52,13 +52,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             {product.stock}
           </span>
         </div>
-        <Link
-          href={`/products/${product.id}`}
-          className={styles.viewDetailsButton}
-        >
-          View Details
-        </Link>
       </div>
-    </div>
+    </Link>
   );
 }

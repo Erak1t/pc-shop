@@ -62,7 +62,9 @@ interface ProductPageProps {
 
 export default function ProductDetails({ params }: ProductPageProps) {
   // Знаходимо продукт за id
-  const product = productsData.find((p: Product) => p.id === parseInt(params.id));
+  const product = productsData.find(
+    (p: Product) => p.id === parseInt(params.id)
+  );
 
   // Якщо продукт не знайдено, показуємо повідомлення
   if (!product) {
@@ -70,7 +72,9 @@ export default function ProductDetails({ params }: ProductPageProps) {
   }
 
   // Стан для активної вкладки
-  const [activeTab, setActiveTab] = useState<"description" | "reviews">("description");
+  const [activeTab, setActiveTab] = useState<"description" | "reviews">(
+    "description"
+  );
 
   return (
     <main className={styles.productPage}>
@@ -79,11 +83,14 @@ export default function ProductDetails({ params }: ProductPageProps) {
           <Link href="/" className={styles.breadcrumbLink}>
             Home
           </Link>
-          <span className={styles.breadcrumbSeparator}> > </span>
-          <Link href={`/${product.category.toLowerCase()}`} className={styles.breadcrumbLink}>
+          <span className={styles.breadcrumbSeparator}> &gt; </span>
+          <Link
+            href={`/${product.category.toLowerCase()}`}
+            className={styles.breadcrumbLink}
+          >
             {product.category === "others" ? "Accessories" : product.category}
           </Link>
-          <span className={styles.breadcrumbSeparator}> > </span>
+          <span className={styles.breadcrumbSeparator}> &gt; </span>
           <span>{product.name}</span>
         </div>
       </section>
@@ -110,7 +117,9 @@ export default function ProductDetails({ params }: ProductPageProps) {
           <div className={styles.stockStatus}>
             <span
               className={`${styles.stockText} ${
-                product.stock === "in stock" ? styles.inStock : styles.outOfStock
+                product.stock === "in stock"
+                  ? styles.inStock
+                  : styles.outOfStock
               }`}
             >
               {product.stock}
@@ -156,7 +165,8 @@ export default function ProductDetails({ params }: ProductPageProps) {
         <div className={styles.tabContent}>
           {activeTab === "description" ? (
             <p className={styles.description}>
-              {product.description || "No description available for this product."}
+              {product.description ||
+                "No description available for this product."}
             </p>
           ) : (
             <div className={styles.reviewsList}>
@@ -164,9 +174,12 @@ export default function ProductDetails({ params }: ProductPageProps) {
                 reviewsData.map((review) => (
                   <div key={review.id} className={styles.reviewItem}>
                     <div className={styles.reviewHeader}>
-                      <span className={styles.reviewAuthor}>{review.author}</span>
+                      <span className={styles.reviewAuthor}>
+                        {review.author}
+                      </span>
                       <span className={styles.reviewRating}>
-                        {"★".repeat(review.rating) + "☆".repeat(5 - review.rating)}
+                        {"★".repeat(review.rating) +
+                          "☆".repeat(5 - review.rating)}
                       </span>
                       <span className={styles.reviewDate}>{review.date}</span>
                     </div>
