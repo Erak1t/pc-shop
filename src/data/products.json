@@ -10,7 +10,8 @@
     "category": "Laptops",
     "color": "black",
     "priceRange": "$501.00 - $1,000.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Boost your productivity with the MSI Modern 14, a sleek black laptop designed for professionals on the go."
   },
   {
     "id": 2,
@@ -37,7 +38,8 @@
     "category": "Laptops",
     "color": "white",
     "priceRange": "$1,001.00 - $2,000.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Unleash your creativity with the Dell XPS 13, featuring a stunning touchscreen display in a sleek white design."
   },
   {
     "id": 4,
@@ -50,7 +52,8 @@
     "category": "Laptops",
     "color": "black",
     "priceRange": "$501.00 - $1,000.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Reliable and powerful, the Lenovo ThinkPad E15 Gen 4 is perfect for business users seeking performance and durability."
   },
   {
     "id": 5,
@@ -63,7 +66,8 @@
     "category": "Laptops",
     "color": "green",
     "priceRange": "$501.00 - $1,000.00",
-    "isNew": true
+    "isNew": true,
+    "description": "Dominate your games with the HP Pavilion Gaming 15, featuring a bold green design and high-performance specs."
   },
   {
     "id": 6,
@@ -76,7 +80,8 @@
     "category": "DesktopPC",
     "color": "silver",
     "priceRange": "$501.00 - $1,000.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Simplify your workspace with the Acer Aspire C24, an all-in-one desktop PC in a sleek silver finish."
   },
   {
     "id": 7,
@@ -89,7 +94,8 @@
     "category": "DesktopPC",
     "color": "black",
     "priceRange": "$1,001.00 - $2,000.00",
-    "isNew": true
+    "isNew": true,
+    "description": "Unleash your gaming potential with the HP Omen 30L, a powerful desktop PC designed for immersive gameplay."
   },
   {
     "id": 8,
@@ -102,7 +108,8 @@
     "category": "DesktopPC",
     "color": "gray",
     "priceRange": "$501.00 - $1,000.00",
-    "isNew": false
+    "isNew": false,
+    "description": "The Lenovo IdeaCentre 5i offers reliable performance for everyday tasks in a stylish gray chassis."
   },
   {
     "id": 9,
@@ -115,7 +122,8 @@
     "category": "DesktopPC",
     "color": "black",
     "priceRange": "$1,001.00 - $2,000.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Experience top-tier gaming with the Dell Alienware Aurora R12, built for performance and style."
   },
   {
     "id": 10,
@@ -128,7 +136,8 @@
     "category": "DesktopPC",
     "color": "space gray",
     "priceRange": "$501.00 - $1,000.00",
-    "isNew": true
+    "isNew": true,
+    "description": "Compact yet powerful, the Apple Mac Mini M2 2023 delivers exceptional performance in a space gray design."
   },
   {
     "id": 11,
@@ -141,7 +150,8 @@
     "category": "PartsPC",
     "color": "black",
     "priceRange": "$0.00 - $100.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Upgrade your PC with the Corsair Vengeance RGB Pro 16GB DDR4 RAM, featuring vibrant lighting and high speed."
   },
   {
     "id": 12,
@@ -154,7 +164,8 @@
     "category": "PartsPC",
     "color": "black",
     "priceRange": "$101.00 - $200.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Boost your storage with the Samsung 980 Pro 1TB NVMe SSD, offering lightning-fast speeds for your PC."
   },
   {
     "id": 13,
@@ -167,7 +178,8 @@
     "category": "PartsPC",
     "color": "black",
     "priceRange": "$301.00 - $500.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Elevate your gaming with the Nvidia GeForce RTX 3060, delivering stunning visuals and smooth performance."
   },
   {
     "id": 14,
@@ -180,7 +192,8 @@
     "category": "PartsPC",
     "color": "silver",
     "priceRange": "$301.00 - $500.00",
-    "isNew": true
+    "isNew": true,
+    "description": "Power up your PC with the AMD Ryzen 7 5800X, a high-performance processor for gaming and multitasking."
   },
   {
     "id": 15,
@@ -193,7 +206,8 @@
     "category": "PartsPC",
     "color": "black",
     "priceRange": "$101.00 - $200.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Build your dream PC with the ASUS ROG Strix B550-F, a reliable motherboard for gamers and enthusiasts."
   },
   {
     "id": 16,
@@ -206,7 +220,8 @@
     "category": "Laptops",
     "color": "blue",
     "priceRange": "$1,001.00 - $2,000.00",
-    "isNew": true
+    "isNew": true,
+    "description": "Enjoy vibrant visuals with the ASUS ZenBook 14 OLED, a premium laptop in a stunning blue finish."
   },
   {
     "id": 17,
@@ -219,7 +234,8 @@
     "category": "Laptops",
     "color": "silver",
     "priceRange": "$501.00 - $1,000.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Stay productive with the Acer Swift 3 Intel Evo, a lightweight silver laptop with all-day battery life."
   },
   {
     "id": 18,
@@ -232,7 +248,8 @@
     "category": "Laptops",
     "color": "black",
     "priceRange": "$1,001.00 - $2,000.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Versatility meets style with the HP Spectre x360, a 2-in-1 laptop perfect for work and play."
   },
   {
     "id": 19,
@@ -245,7 +262,8 @@
     "category": "Laptops",
     "color": "gray",
     "priceRange": "$501.00 - $1,000.00",
-    "isNew": true
+    "isNew": true,
+    "description": "Conquer your games with the Dell G15 5511, a powerful gaming laptop in a sleek gray design."
   },
   {
     "id": 20,
@@ -258,7 +276,8 @@
     "category": "Laptops",
     "color": "white",
     "priceRange": "$1,001.00 - $2,000.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Experience gaming excellence with the Lenovo Legion 5 Pro, featuring a stunning white finish."
   },
   {
     "id": 21,
@@ -271,7 +290,8 @@
     "category": "DesktopPC",
     "color": "white",
     "priceRange": "$1,001.00 - $2,000.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Showcase your build with the NZXT H510 Elite, a mid-tower desktop PC with a sleek white design."
   },
   {
     "id": 22,
@@ -284,7 +304,8 @@
     "category": "DesktopPC",
     "color": "black",
     "priceRange": "$2,001.00 and above",
-    "isNew": false
+    "isNew": false,
+    "description": "Compact power meets premium design with the Corsair One i200, a high-end gaming PC."
   },
   {
     "id": 23,
@@ -297,7 +318,8 @@
     "category": "DesktopPC",
     "color": "gray",
     "priceRange": "$1,001.00 - $2,000.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Dominate the battlefield with the ASUS ROG Strix GA35DX, a gaming desktop built for performance."
   },
   {
     "id": 24,
@@ -310,7 +332,8 @@
     "category": "DesktopPC",
     "color": "black",
     "priceRange": "$501.00 - $1,000.00",
-    "isNew": true
+    "isNew": true,
+    "description": "Efficient and compact, the Dell Inspiron 3891 is perfect for small spaces and everyday tasks."
   },
   {
     "id": 25,
@@ -323,7 +346,8 @@
     "category": "DesktopPC",
     "color": "blue",
     "priceRange": "$1,001.00 - $2,000.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Transform your workspace with the Apple iMac 24-inch M1, featuring a vibrant blue design and powerful performance."
   },
   {
     "id": 26,
@@ -336,7 +360,8 @@
     "category": "PartsPC",
     "color": "black",
     "priceRange": "$101.00 - $200.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Enhance your PC's performance with the Crucial Ballistix 32GB DDR4 RAM, perfect for gaming and multitasking."
   },
   {
     "id": 27,
@@ -349,7 +374,8 @@
     "category": "PartsPC",
     "color": "green",
     "priceRange": "$0.00 - $100.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Expand your storage with the Seagate Barracuda 2TB HDD, offering reliable performance for your PC."
   },
   {
     "id": 28,
@@ -362,7 +388,8 @@
     "category": "PartsPC",
     "color": "black",
     "priceRange": "$0.00 - $100.00",
-    "isNew": true
+    "isNew": true,
+    "description": "Keep your PC cool with the Cooler Master Hyper 212 Black Edition, a high-performance CPU cooler."
   },
   {
     "id": 29,
@@ -375,7 +402,8 @@
     "category": "PartsPC",
     "color": "black",
     "priceRange": "$101.00 - $200.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Power your PC reliably with the EVGA 750W G5 Power Supply, designed for efficiency and performance."
   },
   {
     "id": 30,
@@ -388,7 +416,8 @@
     "category": "PartsPC",
     "color": "blue",
     "priceRange": "$100.00 - $150.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Store your data on the go with the Samsung T7 1TB Portable SSD, featuring a sleek blue design and fast speeds."
   },
   {
     "id": 31,
@@ -401,7 +430,8 @@
     "category": "others",
     "color": "black",
     "priceRange": "$50.00 - $150.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Enhance your productivity with the Logitech MX Master 3, a premium wireless mouse in black."
   },
   {
     "id": 32,
@@ -414,7 +444,8 @@
     "category": "others",
     "color": "green",
     "priceRange": "$100.00 - $200.00",
-    "isNew": true
+    "isNew": true,
+    "description": "Game in style with the Razer BlackWidow V3, a mechanical keyboard with vibrant green switches."
   },
   {
     "id": 33,
@@ -427,7 +458,8 @@
     "category": "others",
     "color": "red",
     "priceRange": "$100.00 - $200.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Immerse yourself in sound with the HyperX Cloud II Wireless Gaming Headset, featuring a bold red design."
   },
   {
     "id": 34,
@@ -440,7 +472,8 @@
     "category": "others",
     "color": "black",
     "priceRange": "$50.00 - $100.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Capture every moment with the Logitech C920 HD Pro Webcam, perfect for streaming and video calls."
   },
   {
     "id": 35,
@@ -453,7 +486,8 @@
     "category": "others",
     "color": "black",
     "priceRange": "$150.00 - $200.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Elevate your gaming setup with the Corsair K70 RGB PRO, a mechanical keyboard with stunning RGB lighting."
   },
   {
     "id": 36,
@@ -466,7 +500,8 @@
     "category": "others",
     "color": "white",
     "priceRange": "$150.00 - $200.00",
-    "isNew": false
+    "isNew": false,
+    "description": "Enjoy crystal-clear audio with the SteelSeries Arctis 7+ Wireless Headset in a sleek white design."
   },
   {
     "id": 37,
@@ -479,7 +514,8 @@
     "category": "others",
     "color": "black",
     "priceRange": "$100.00 - $150.00",
-    "isNew": true
+    "isNew": true,
+    "description": "Gain precision control with the Logitech G Pro Wireless Gaming Mouse, designed for esports pros."
   },
   {
     "id": 38,
@@ -492,7 +528,8 @@
     "category": "others",
     "color": "black",
     "priceRange": "$100.00 - $200.00",
-    "isNew": true
+    "isNew": true,
+    "description": "Streamline your workflow with the Elgato Stream Deck MK.2, a must-have tool for streamers and creators."
   },
   {
     "id": 39,
@@ -505,7 +542,8 @@
     "category": "others",
     "color": "green",
     "priceRange": "$0.00 - $100.00",
-    "isNew": true
+    "isNew": true,
+    "description": "Hear every detail with the Razer Kraken Tournament Edition Headset, featuring a vibrant green design."
   },
   {
     "id": 40,
@@ -518,6 +556,7 @@
     "category": "others",
     "color": "silver",
     "priceRange": "$100.00 - $150.00",
-    "isNew": true
+    "isNew": true,
+    "description": "Record in studio quality with the Blue Yeti USB Microphone, a versatile choice for creators in a sleek silver finish."
   }
 ]
