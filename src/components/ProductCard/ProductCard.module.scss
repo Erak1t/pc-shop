@@ -10,7 +10,7 @@
   height: 100%; /* Щоб картка займала всю доступну висоту */
 
   &:hover {
-    transform: translateY(-5px); /* Підняття картки при наведенні */
+    transform: translateY(-2px); /* Підняття картки при наведенні */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Посилена тінь */
   }
 }
@@ -31,10 +31,11 @@
   height: 100%;
   object-fit: contain; /* Зображення масштабується, зберігаючи пропорції */
   transition: transform 0.3s ease; /* Анімація масштабування */
+  z-index: 1; /* Зображення нижче за позначку "New" */
+}
 
-  .card:hover & {
-    transform: scale(1.05); /* Збільшення зображення при наведенні */
-  }
+.card:hover .productImage {
+  transform: scale(1.02); /* Збільшення зображення при наведенні */
 }
 
 .newTag {
@@ -48,6 +49,7 @@
   padding: 4px 8px;
   border-radius: 10px;
   text-transform: uppercase;
+  z-index: 2; /* Позначка "New" поверх зображення */
 }
 
 .details {
