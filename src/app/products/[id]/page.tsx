@@ -1,9 +1,10 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react"; // Додаємо useState для управління вкладками
+import { useState } from "react";
 import productsData from "../../../data/products.json";
 import styles from "./ProductDetails.module.scss";
+import ProductCard from "../../../components/ProductCard/ProductCard";
 
 // Тип для продукту
 interface Product {
@@ -70,6 +71,11 @@ export default function ProductDetails({ params }: ProductPageProps) {
   if (!product) {
     return <div>Product not found</div>;
   }
+
+  // Знаходимо схожі продукти (з тієї ж категорії, але не поточний продукт)
+  const relatedProducts = productsData.filter(
+    (p: Product) => p.category === product.category && p.id !== product.id
+  );
 
   // Стан для активної вкладки
   const [activeTab, setActiveTab] = useState<"description" | "reviews">(
@@ -192,6 +198,20 @@ export default function ProductDetails({ params }: ProductPageProps) {
             </div>
           )}
         </div>
+      </section>
+
+      {/* Секція схожих продуктів */}
+      <section className={styles.relatedProductsSection}>
+        <h2 className={styles.relatedProductsTitle}>Related Products</h2>
+        {relatedProducts.length > 0 ? (
+          <div className={styles.relatedProductsGrid}>
+            {relatedProducts.map((relatedProduct: Product) => (
+              <ProductCard key={relatedProduct.id} product={relatedProduct} />
+            ))}
+          </div>
+        ) : (
+          <p>No related products found.</p>
+        )}
       </section>
     </main>
   );

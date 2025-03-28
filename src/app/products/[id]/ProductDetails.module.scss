@@ -347,3 +347,46 @@
     font-size: 10px;
   }
 }
+/* Секція схожих продуктів */
+.relatedProductsSection {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  margin-bottom: 40px;
+}
+
+.relatedProductsTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.relatedProductsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Адаптивність для секції схожих продуктів */
+@media (max-width: 768px) {
+  .relatedProductsTitle {
+    font-size: 20px;
+  }
+
+  .relatedProductsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .relatedProductsTitle {
+    font-size: 18px;
+  }
+
+  .relatedProductsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+}
