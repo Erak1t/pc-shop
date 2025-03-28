@@ -348,6 +348,7 @@
   }
 }
 /* Секція схожих продуктів */
+/* Секція схожих продуктів */
 .relatedProductsSection {
   max-width: 1200px;
   margin: 0 auto;
@@ -355,17 +356,64 @@
   margin-bottom: 40px;
 }
 
+.relatedProductsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .relatedProductsTitle {
   font-size: 24px;
   font-weight: 600;
   color: #333;
-  margin-bottom: 20px;
 }
 
-.relatedProductsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+.scrollButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.scrollButton {
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+
+  svg {
+    color: #333;
+  }
+}
+
+.relatedProductsSlider {
+  display: flex;
+  overflow-x: auto;
   gap: 20px;
+  padding-bottom: 10px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+
+  /* Приховуємо скролбар, але зберігаємо можливість скролити */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* Для Internet Explorer і Edge */
+  scrollbar-width: none; /* Для Firefox */
+}
+
+.sliderItem {
+  flex: 0 0 auto;
+  width: 220px; /* Фіксована ширина картки */
 }
 
 /* Адаптивність для секції схожих продуктів */
@@ -374,9 +422,18 @@
     font-size: 20px;
   }
 
-  .relatedProductsGrid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 15px;
+  .sliderItem {
+    width: 180px;
+  }
+
+  .scrollButton {
+    width: 36px;
+    height: 36px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
   }
 }
 
@@ -385,8 +442,17 @@
     font-size: 18px;
   }
 
-  .relatedProductsGrid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
+  .sliderItem {
+    width: 150px;
+  }
+
+  .scrollButton {
+    width: 32px;
+    height: 32px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 }

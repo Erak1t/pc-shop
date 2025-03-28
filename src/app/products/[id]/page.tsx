@@ -1,7 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef } from "react"; // Додаємо useRef для скрол-контейнера
+import { ChevronLeft, ChevronRight } from "lucide-react"; // Іконки для кнопок
 import productsData from "../../../data/products.json";
 import styles from "./ProductDetails.module.scss";
 import ProductCard from "../../../components/ProductCard/ProductCard";
@@ -73,14 +74,38 @@ export default function ProductDetails({ params }: ProductPageProps) {
   }
 
   // Знаходимо схожі продукти (з тієї ж категорії, але не поточний продукт)
-  const relatedProducts = productsData.filter(
-    (p: Product) => p.category === product.category && p.id !== product.id
-  );
+  const relatedProducts = productsData
+    .filter(
+      (p: Product) => p.category === product.category && p.id !== product.id
+    )
+    .slice(0, 7); // Показуємо лише перші 7 схожих продуктів
 
   // Стан для активної вкладки
   const [activeTab, setActiveTab] = useState<"description" | "reviews">(
     "description"
   );
+
+  // Ref для скрол-контейнера
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Функції для прокрутки
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: -300, // Прокрутка на 300px вліво
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: 300, // Прокрутка на 300px вправо
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <main className={styles.productPage}>
@@ -150,7 +175,7 @@ export default function ProductDetails({ params }: ProductPageProps) {
 
       {/* Вкладки для опису і відгуків */}
       <section className={styles.tabsSection}>
-        <div className={styles.tabs}>
+        <div className={styles.Tabs}>
           <button
             className={`${styles.tabButton} ${
               activeTab === "description" ? styles.activeTab : ""
@@ -200,13 +225,30 @@ export default function ProductDetails({ params }: ProductPageProps) {
         </div>
       </section>
 
-      {/* Секція схожих продуктів */}
+      {/* Секція схожих продуктів у вигляді слайдера */}
       <section className={styles.relatedProductsSection}>
-        <h2 className={styles.relatedProductsTitle}>Related Products</h2>
+        <div className={styles.relatedProductsHeader}>
+          <h2 className={styles.relatedProductsTitle}>Related Products</h2>
+          {relatedProducts.length > 0 && (
+            <div className={styles.scrollButtons}>
+              <button onClick={scrollLeft} className={styles.scrollButton}>
+                <ChevronLeft size={24} />
+              </button>
+              <button onClick={scrollRight} className={styles.scrollButton}>
+                <ChevronRight size={24} />
+              </button>
+            </div>
+          )}
+        </div>
         {relatedProducts.length > 0 ? (
-          <div className={styles.relatedProductsGrid}>
+          <div
+            className={styles.relatedProductsSlider}
+            ref={scrollContainerRef}
+          >
             {relatedProducts.map((relatedProduct: Product) => (
-              <ProductCard key={relatedProduct.id} product={relatedProduct} />
+              <div key={relatedProduct.id} className={styles.sliderItem}>
+                <ProductCard product={relatedProduct} />
+              </div>
             ))}
           </div>
         ) : (
