@@ -164,9 +164,6 @@ export default function ProductDetails({ params }: ProductPageProps) {
             <p>
               <strong>Color:</strong> {product.color}
             </p>
-            <p>
-              <strong>Price Range:</strong> {product.priceRange}
-            </p>
             {product.isNew && <p className={styles.newTag}>New Product</p>}
           </div>
           <button className={styles.addToCartButton}>Add to Cart</button>
