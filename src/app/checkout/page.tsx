@@ -35,7 +35,7 @@ export default function CheckoutPage() {
     (total, item) => total + item.price * item.quantity,
     0
   );
-  const shippingCost = 0; // Поки що безкоштовна доставка
+  const shippingCost: any = 0; // Поки що безкоштовна доставка
   const totalPrice = subtotal + shippingCost;
 
   return (
