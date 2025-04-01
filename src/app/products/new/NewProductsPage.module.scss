@@ -1,0 +1,78 @@
+.newProductsPage {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Хлібні крихти */
+.breadcrumb {
+  margin-bottom: 20px;
+}
+
+.breadcrumbLink {
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.breadcrumbSeparator {
+  font-size: 14px;
+  color: #666;
+  margin: 0 5px;
+}
+
+/* Заголовок */
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+/* Сітка продуктів */
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.productCardWrapper {
+  width: 100%;
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .title {
+    font-size: 24px;
+  }
+
+  .productsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+  }
+
+  .breadcrumbLink,
+  .breadcrumbSeparator {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 20px;
+  }
+
+  .productsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+
+  .breadcrumbLink,
+  .breadcrumbSeparator {
+    font-size: 10px;
+  }
+}
