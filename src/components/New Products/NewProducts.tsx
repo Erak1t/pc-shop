@@ -26,12 +26,15 @@ export default function NewProducts() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [newProducts, setNewProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Завантажуємо нові продукти з Supabase
   useEffect(() => {
     const fetchNewProducts = async () => {
       try {
         setLoading(true);
+        setErrorMessage(null);
+
         const { data, error } = await supabase
           .from("products")
           .select("*")
@@ -39,12 +42,18 @@ export default function NewProducts() {
 
         if (error) {
           console.error("Error fetching new products:", error);
+          setErrorMessage(
+            error.message || "An error occurred while fetching new products."
+          );
           return;
         }
 
         setNewProducts(data || []);
       } catch (err) {
         console.error("Unexpected error:", err);
+        setErrorMessage(
+          "Unexpected error occurred while fetching new products."
+        );
       } finally {
         setLoading(false);
       }
@@ -69,13 +78,15 @@ export default function NewProducts() {
     <section className={styles.newProducts}>
       <div className={styles.header}>
         <h2 className={styles.title}>New Products</h2>
-        <Link href="/products/new" className={styles.seeAllLink}>
+        <Link href="/new-products" className={styles.seeAllLink}>
           See All New Products
         </Link>
       </div>
       <div className={styles.sliderContainer}>
         {loading ? (
           <p>Loading new products...</p>
+        ) : errorMessage ? (
+          <p className={styles.error}>{errorMessage}</p>
         ) : newProducts.length > 0 ? (
           <>
             <div className={styles.slider} ref={sliderRef}>

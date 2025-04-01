@@ -1,6 +1,6 @@
 import Link from "next/link";
-import ProductCard from "../../../components/ProductCard/ProductCard";
-import { supabase } from "../../../lib/supabaseClient";
+import ProductCard from "../../components/ProductCard/ProductCard";
+import { supabase } from "../../lib/supabaseClient";
 import styles from "./NewProductsPage.module.scss";
 
 // Тип для продукту
@@ -24,7 +24,7 @@ export default async function NewProductsPage() {
   const { data: newProducts, error } = await supabase
     .from("products")
     .select("*")
-    .eq("isNew", true);
+    .eq("isnew", true);
 
   if (error) {
     console.error("Error fetching new products:", error);

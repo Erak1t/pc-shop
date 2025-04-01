@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import ProductCard from "../../../components/ProductCard/ProductCard";
+import ProductCard from "../../../../components/ProductCard/ProductCard";
 import styles from "./ProductDetails.module.scss";
 
 // Тип для продукту

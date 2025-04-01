@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { supabase } from "../../../lib/supabaseClient";
+import { supabase } from "../../../../lib/supabaseClient";
 import styles from "./ProductDetails.module.scss";
 import { ClientTabs, ClientSlider } from "./ClientComponents";
 
@@ -38,11 +38,17 @@ interface ProductPageProps {
 }
 
 export default async function ProductDetails({ params }: ProductPageProps) {
+  // Перевіряємо, чи params.id є числом
+  const productId = parseInt(params.id);
+  if (isNaN(productId)) {
+    return <div>Invalid product ID</div>;
+  }
+
   // Отримуємо продукт за id із Supabase
   const { data: product, error: productError } = await supabase
     .from("products")
     .select("*")
-    .eq("id", parseInt(params.id))
+    .eq("id", productId)
     .single();
 
   // Якщо продукт не знайдено або сталася помилка
