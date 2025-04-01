@@ -1,9 +1,10 @@
 "use client";
+
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useRef } from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import styles from "./NewProducts.module.scss";
-import productsData from "../../data/products.json";
+import { supabase } from "../../lib/supabaseClient";
 
 // Тип для продукту
 interface Product {
@@ -18,15 +19,39 @@ interface Product {
   color: string;
   priceRange: string;
   isNew?: boolean;
+  description?: string;
 }
-
-// Фільтруємо лише нові продукти
-const newProducts = productsData.filter(
-  (product: Product) => product.isNew === true
-);
 
 export default function NewProducts() {
   const sliderRef = useRef<HTMLDivElement>(null);
+  const [newProducts, setNewProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Завантажуємо нові продукти з Supabase
+  useEffect(() => {
+    const fetchNewProducts = async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .eq("isnew", true);
+
+        if (error) {
+          console.error("Error fetching new products:", error);
+          return;
+        }
+
+        setNewProducts(data || []);
+      } catch (err) {
+        console.error("Unexpected error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNewProducts();
+  }, []);
 
   const scrollLeft = () => {
     if (sliderRef.current) {
@@ -49,19 +74,27 @@ export default function NewProducts() {
         </Link>
       </div>
       <div className={styles.sliderContainer}>
-        <div className={styles.slider} ref={sliderRef}>
-          {newProducts.map((product: Product) => (
-            <div className={styles.productCardWrapper} key={product.id}>
-              <ProductCard product={product} />
+        {loading ? (
+          <p>Loading new products...</p>
+        ) : newProducts.length > 0 ? (
+          <>
+            <div className={styles.slider} ref={sliderRef}>
+              {newProducts.map((product: Product) => (
+                <div className={styles.productCardWrapper} key={product.id}>
+                  <ProductCard product={product} />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <button className={styles.prevButton} onClick={scrollLeft}>
-          ←
-        </button>
-        <button className={styles.nextButton} onClick={scrollRight}>
-          →
-        </button>
+            <button className={styles.prevButton} onClick={scrollLeft}>
+              ←
+            </button>
+            <button className={styles.nextButton} onClick={scrollRight}>
+              →
+            </button>
+          </>
+        ) : (
+          <p>No new products available.</p>
+        )}
       </div>
     </section>
   );
