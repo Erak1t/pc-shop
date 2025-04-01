@@ -1,7 +1,7 @@
 import Link from "next/link";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import styles from "./Laptops.module.scss";
-import productsData from "../../data/products.json";
+import { supabase } from "../../lib/supabaseClient";
 
 // Тип для продукту
 interface Product {
@@ -15,25 +15,47 @@ interface Product {
   category: string;
   color: string;
   priceRange: string;
+  isNew?: boolean;
+  description?: string;
 }
 
-// Фільтруємо лише ноутбуки
-const laptops = productsData.filter(
-  (product: Product) => product.category === "Laptops"
-);
+export default async function Laptops() {
+  // Отримуємо ноутбуки з Supabase (фільтруємо напряму в запиті)
+  const { data: laptops, error: laptopsError } = await supabase
+    .from("products")
+    .select("*")
+    .eq("category", "Laptops"); // Використовуємо "Laptops" з великої літери
 
-// Генеруємо унікальні категорії, цінові діапазони і кольори для фільтрів
-const categories = Array.from(
-  new Set(productsData.map((product: Product) => product.category))
-);
-const priceRanges = Array.from(
-  new Set(productsData.map((product: Product) => product.priceRange))
-);
-const colors = Array.from(
-  new Set(productsData.map((product: Product) => product.color))
-);
+  if (laptopsError) {
+    console.error("Error fetching laptops:", laptopsError);
+    return <div>Error loading laptops</div>;
+  }
 
-export default function Laptops() {
+  // Отримуємо всі продукти для генерації фільтрів
+  const { data: productsData, error: productsError } = await supabase
+    .from("products")
+    .select("*");
+
+  if (productsError) {
+    console.error("Error fetching products for filters:", productsError);
+    return <div>Error loading products for filters</div>;
+  }
+
+  if (!productsData || productsData.length === 0) {
+    return <div>No products found</div>;
+  }
+
+  // Генеруємо унікальні категорії, цінові діапазони і кольори для фільтрів
+  const categories = Array.from(
+    new Set(productsData.map((product: Product) => product.category))
+  );
+  const priceRanges = Array.from(
+    new Set(productsData.map((product: Product) => product.priceRange))
+  );
+  const colors = Array.from(
+    new Set(productsData.map((product: Product) => product.color))
+  );
+
   return (
     <main>
       <section className={styles.topSection}>
@@ -41,20 +63,20 @@ export default function Laptops() {
           <Link href="/" className={styles.breadcrumbLink}>
             Home
           </Link>
-          <span className={styles.breadcrumbSeparator}> &gt; </span>
+          <span className={styles.breadcrumbSeparator}> > </span>
           <Link href="/laptops" className={styles.breadcrumbLink}>
             Laptops
           </Link>
         </div>
         <div className={styles.header}>
-          <h1 className={styles.title}>Laptops ({laptops.length})</h1>
+          <h1 className={styles.title}>Laptops ({laptops?.length || 0})</h1>
           <div className={styles.navControls}>
             <span className={styles.itemsCount}>
-              Items 1-{laptops.length} of {laptops.length}
+              Items 1-{laptops?.length || 0} of {laptops?.length || 0}
             </span>
             <div className={styles.sortContainer}>
               <label className={styles.sortLabel}>Sort By:</label>
-              <select className={styles.sortSelect}>
+              <select className={styles.sortSelect} disabled>
                 <option value="position">Position</option>
                 <option value="price-low-high">Price: Low to High</option>
                 <option value="price-high-low">Price: High to Low</option>
@@ -63,14 +85,18 @@ export default function Laptops() {
             </div>
             <div className={styles.viewContainer}>
               <label className={styles.viewLabel}>Show:</label>
-              <select className={styles.viewSelect}>
+              <select className={styles.viewSelect} disabled>
                 <option value="10">10 per page</option>
                 <option value="20">20 per page</option>
                 <option value="35">35 per page</option>
               </select>
               <div className={styles.viewToggle}>
-                <button className={styles.gridViewButton}>🖼️</button>
-                <button className={styles.listViewButton}>📜</button>
+                <button className={styles.gridViewButton} disabled>
+                  🖼️
+                </button>
+                <button className={styles.listViewButton} disabled>
+                  📜
+                </button>
               </div>
             </div>
           </div>
@@ -78,24 +104,29 @@ export default function Laptops() {
         <div className={styles.filters}>
           <span className={styles.filtersLabel}>Filter</span>
           <div className={styles.filterButtons}>
-            <button className={styles.filterButton}>
-              Laptops ({laptops.length}){" "}
+            <button className={styles.filterButton} disabled>
+              Laptops ({laptops?.length || 0}){" "}
               <span className={styles.removeFilter}>×</span>
             </button>
-            {/* Приклад інших фільтрів */}
-            <button className={styles.filterButton}>
-              In Stock ({laptops.filter((l) => l.stock === "in stock").length}){" "}
-              <span className={styles.removeFilter}>×</span>
+            <button className={styles.filterButton} disabled>
+              In Stock (
+              {laptops?.filter((l: Product) => l.stock === "in stock")
+                .length || 0}
+              ) <span className={styles.removeFilter}>×</span>
             </button>
           </div>
-          <button className={styles.clearFiltersButton}>Clear All</button>
+          <button className={styles.clearFiltersButton} disabled>
+            Clear All
+          </button>
         </div>
       </section>
 
       <section className={styles.mainSection}>
         <aside className={styles.sidebar}>
           <div className={styles.filterGroup}>
-            <button className={styles.clearFilterButton}>Clear Filter</button>
+            <button className={styles.clearFilterButton} disabled>
+              Clear Filter
+            </button>
           </div>
 
           <div className={styles.filterGroup}>
@@ -140,7 +171,7 @@ export default function Laptops() {
                   <span
                     key={color}
                     className={styles.colorCircle}
-                    style={{ backgroundColor: color }}
+                    style={{ backgroundColor: color.toLowerCase() }}
                   ></span>
                 ))}
               </li>
@@ -149,7 +180,7 @@ export default function Laptops() {
 
           <div className={styles.filterGroup}>
             <h3 className={styles.filterTitle}>Filter Name</h3>
-            <button className={styles.applyFiltersButton}>
+            <button className={styles.applyFiltersButton} disabled>
               Apply Filters (2)
             </button>
           </div>
@@ -165,9 +196,13 @@ export default function Laptops() {
         </aside>
 
         <div className={styles.productsGrid}>
-          {laptops.map((laptop: Product) => (
-            <ProductCard key={laptop.id} product={laptop} />
-          ))}
+          {laptops && laptops.length > 0 ? (
+            laptops.map((laptop: Product) => (
+              <ProductCard key={laptop.id} product={laptop} />
+            ))
+          ) : (
+            <p>No laptops found.</p>
+          )}
         </div>
       </section>
     </main>

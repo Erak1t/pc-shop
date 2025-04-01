@@ -1,9 +1,8 @@
-"use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef } from "react"; // Додаємо useRef для скрол-контейнера
-import { ChevronLeft, ChevronRight } from "lucide-react"; // Іконки для кнопок
-import productsData from "../../../data/products.json";
+import { useState, useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { supabase } from "../../../lib/supabaseClient";
 import styles from "./ProductDetails.module.scss";
 import ProductCard from "../../../components/ProductCard/ProductCard";
 
@@ -62,50 +61,29 @@ interface ProductPageProps {
   params: { id: string };
 }
 
-export default function ProductDetails({ params }: ProductPageProps) {
-  // Знаходимо продукт за id
-  const product = productsData.find(
-    (p: Product) => p.id === parseInt(params.id)
-  );
+export default async function ProductDetails({ params }: ProductPageProps) {
+  // Отримуємо продукт за id із Supabase
+  const { data: product, error: productError } = await supabase
+    .from("products")
+    .select("*")
+    .eq("id", parseInt(params.id))
+    .single();
 
-  // Якщо продукт не знайдено, показуємо повідомлення
-  if (!product) {
+  // Якщо продукт не знайдено або сталася помилка
+  if (productError || !product) {
     return <div>Product not found</div>;
   }
 
-  // Знаходимо схожі продукти (з тієї ж категорії, але не поточний продукт)
-  const relatedProducts = productsData
-    .filter(
-      (p: Product) => p.category === product.category && p.id !== product.id
-    )
-    .slice(0, 7); // Показуємо лише перші 7 схожих продуктів
+  // Отримуємо схожі продукти (з тієї ж категорії, але не поточний продукт)
+  const { data: relatedProducts, error: relatedError } = await supabase
+    .from("products")
+    .select("*")
+    .eq("category", product.category)
+    .neq("id", product.id);
 
-  // Стан для активної вкладки
-  const [activeTab, setActiveTab] = useState<"description" | "reviews">(
-    "description"
-  );
-
-  // Ref для скрол-контейнера
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  // Функції для прокрутки
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({
-        left: -300, // Прокрутка на 300px вліво
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({
-        left: 300, // Прокрутка на 300px вправо
-        behavior: "smooth",
-      });
-    }
-  };
+  if (relatedError) {
+    console.error("Error fetching related products:", relatedError);
+  }
 
   return (
     <main className={styles.productPage}>
@@ -164,6 +142,9 @@ export default function ProductDetails({ params }: ProductPageProps) {
             <p>
               <strong>Color:</strong> {product.color}
             </p>
+            <p>
+              <strong>Price Range:</strong> {product.priceRange}
+            </p>
             {product.isNew && <p className={styles.newTag}>New Product</p>}
           </div>
           <button className={styles.addToCartButton}>Add to Cart</button>
@@ -171,87 +152,139 @@ export default function ProductDetails({ params }: ProductPageProps) {
       </section>
 
       {/* Вкладки для опису і відгуків */}
-      <section className={styles.tabsSection}>
-        <div className={styles.Tabs}>
-          <button
-            className={`${styles.tabButton} ${
-              activeTab === "description" ? styles.activeTab : ""
-            }`}
-            onClick={() => setActiveTab("description")}
-          >
-            Description
-          </button>
-          <button
-            className={`${styles.tabButton} ${
-              activeTab === "reviews" ? styles.activeTab : ""
-            }`}
-            onClick={() => setActiveTab("reviews")}
-          >
-            Reviews ({reviewsData.length})
-          </button>
-        </div>
-        <div className={styles.tabContent}>
-          {activeTab === "description" ? (
-            <p className={styles.description}>
-              {product.description ||
-                "No description available for this product."}
-            </p>
-          ) : (
-            <div className={styles.reviewsList}>
-              {reviewsData.length > 0 ? (
-                reviewsData.map((review) => (
-                  <div key={review.id} className={styles.reviewItem}>
-                    <div className={styles.reviewHeader}>
-                      <span className={styles.reviewAuthor}>
-                        {review.author}
-                      </span>
-                      <span className={styles.reviewRating}>
-                        {"★".repeat(review.rating) +
-                          "☆".repeat(5 - review.rating)}
-                      </span>
-                      <span className={styles.reviewDate}>{review.date}</span>
-                    </div>
-                    <p className={styles.reviewComment}>{review.comment}</p>
-                  </div>
-                ))
-              ) : (
-                <p>No reviews available for this product.</p>
-              )}
-            </div>
-          )}
-        </div>
-      </section>
+      <ClientTabs reviewsData={reviewsData} description={product.description} />
 
       {/* Секція схожих продуктів у вигляді слайдера */}
       <section className={styles.relatedProductsSection}>
         <div className={styles.relatedProductsHeader}>
           <h2 className={styles.relatedProductsTitle}>Related Products</h2>
-          {relatedProducts.length > 0 && (
+          {relatedProducts && relatedProducts.length > 0 && (
             <div className={styles.scrollButtons}>
-              <button onClick={scrollLeft} className={styles.scrollButton}>
+              <button id="scrollLeft" className={styles.scrollButton}>
                 <ChevronLeft size={24} />
               </button>
-              <button onClick={scrollRight} className={styles.scrollButton}>
+              <button id="scrollRight" className={styles.scrollButton}>
                 <ChevronRight size={24} />
               </button>
             </div>
           )}
         </div>
-        {relatedProducts.length > 0 ? (
-          <div
-            className={styles.relatedProductsSlider}
-            ref={scrollContainerRef}
-          >
-            {relatedProducts.map((relatedProduct: Product) => (
-              <div key={relatedProduct.id} className={styles.sliderItem}>
-                <ProductCard product={relatedProduct} />
-              </div>
-            ))}
-          </div>
+        {relatedProducts && relatedProducts.length > 0 ? (
+          <ClientSlider relatedProducts={relatedProducts} />
         ) : (
           <p>No related products found.</p>
         )}
       </section>
     </main>
+  );
+}
+
+// Клієнтський компонент для вкладок
+function ClientTabs({
+  reviewsData,
+  description,
+}: {
+  reviewsData: Review[];
+  description: string | null;
+}) {
+  const [activeTab, setActiveTab] = useState<"description" | "reviews">(
+    "description"
+  );
+
+  return (
+    <section className={styles.tabsSection}>
+      <div className={styles.tabs}>
+        <button
+          className={`${styles.tabButton} ${
+            activeTab === "description" ? styles.activeTab : ""
+          }`}
+          onClick={() => setActiveTab("description")}
+        >
+          Description
+        </button>
+        <button
+          className={`${styles.tabButton} ${
+            activeTab === "reviews" ? styles.activeTab : ""
+          }`}
+          onClick={() => setActiveTab("reviews")}
+        >
+          Reviews ({reviewsData.length})
+        </button>
+      </div>
+      <div className={styles.tabContent}>
+        {activeTab === "description" ? (
+          <p className={styles.description}>
+            {description || "No description available for this product."}
+          </p>
+        ) : (
+          <div className={styles.reviewsList}>
+            {reviewsData.length > 0 ? (
+              reviewsData.map((review) => (
+                <div key={review.id} className={styles.reviewItem}>
+                  <div className={styles.reviewHeader}>
+                    <span className={styles.reviewAuthor}>{review.author}</span>
+                    <span className={styles.reviewRating}>
+                      {"★".repeat(review.rating) +
+                        "☆".repeat(5 - review.rating)}
+                    </span>
+                    <span className={styles.reviewDate}>{review.date}</span>
+                  </div>
+                  <p className={styles.reviewComment}>{review.comment}</p>
+                </div>
+              ))
+            ) : (
+              <p>No reviews available for this product.</p>
+            )}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// Клієнтський компонент для слайдера
+function ClientSlider({ relatedProducts }: { relatedProducts: Product[] }) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: -300,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: 300,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  // Додаємо слухачі подій для кнопок після монтування компонента
+  useState(() => {
+    const leftButton = document.getElementById("scrollLeft");
+    const rightButton = document.getElementById("scrollRight");
+
+    if (leftButton) leftButton.addEventListener("click", scrollLeft);
+    if (rightButton) rightButton.addEventListener("click", scrollRight);
+
+    return () => {
+      if (leftButton) leftButton.removeEventListener("click", scrollLeft);
+      if (rightButton) rightButton.removeEventListener("click", scrollRight);
+    };
+  });
+
+  return (
+    <div className={styles.relatedProductsSlider} ref={scrollContainerRef}>
+      {relatedProducts.map((relatedProduct: Product) => (
+        <div key={relatedProduct.id} className={styles.sliderItem}>
+          <ProductCard product={relatedProduct} />
+        </div>
+      ))}
+    </div>
   );
 }
