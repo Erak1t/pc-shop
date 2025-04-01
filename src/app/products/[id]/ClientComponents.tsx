@@ -23,10 +23,12 @@ interface Product {
 // Тип для відгуку
 interface Review {
   id: number;
+  product_id: number;
   author: string;
   rating: number;
   comment: string;
   date: string;
+  created_at: string;
 }
 
 // Клієнтський компонент для вкладок
@@ -35,7 +37,7 @@ export function ClientTabs({
   description,
 }: {
   reviewsData: Review[];
-  description: string | null;
+  description: string | null | undefined;
 }) {
   const [activeTab, setActiveTab] = useState<"description" | "reviews">(
     "description"
@@ -77,7 +79,9 @@ export function ClientTabs({
                       {"★".repeat(review.rating) +
                         "☆".repeat(5 - review.rating)}
                     </span>
-                    <span className={styles.reviewDate}>{review.date}</span>
+                    <span className={styles.reviewDate}>
+                      {new Date(review.date).toLocaleDateString()}
+                    </span>
                   </div>
                   <p className={styles.reviewComment}>{review.comment}</p>
                 </div>

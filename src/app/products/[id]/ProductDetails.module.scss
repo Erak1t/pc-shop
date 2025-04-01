@@ -213,6 +213,12 @@
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
 }
 
 .reviewHeader {
@@ -220,6 +226,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .reviewAuthor {
@@ -245,109 +253,6 @@
   margin: 0;
 }
 
-/* Адаптивність */
-@media (max-width: 768px) {
-  .mainSection {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .imageSection {
-    padding: 15px;
-  }
-
-  .productImage {
-    max-width: 300px;
-    max-height: 200px;
-  }
-
-  .productName {
-    font-size: 24px;
-  }
-
-  .price {
-    font-size: 20px;
-  }
-
-  .description {
-    font-size: 14px;
-  }
-
-  .addToCartButton {
-    font-size: 14px;
-    padding: 10px 20px;
-    max-width: 250px;
-  }
-
-  .tabButton {
-    font-size: 14px;
-    padding: 8px 16px;
-  }
-
-  .tabContent {
-    padding: 15px;
-  }
-
-  .reviewAuthor,
-  .reviewRating {
-    font-size: 12px;
-  }
-
-  .reviewDate {
-    font-size: 10px;
-  }
-
-  .reviewComment {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .productName {
-    font-size: 20px;
-  }
-
-  .price {
-    font-size: 18px;
-  }
-
-  .description {
-    font-size: 12px;
-  }
-
-  .details {
-    font-size: 12px;
-  }
-
-  .addToCartButton {
-    font-size: 12px;
-    padding: 8px 16px;
-    max-width: 200px;
-  }
-
-  .tabButton {
-    font-size: 12px;
-    padding: 6px 12px;
-  }
-
-  .tabContent {
-    padding: 10px;
-  }
-
-  .reviewAuthor,
-  .reviewRating {
-    font-size: 10px;
-  }
-
-  .reviewDate {
-    font-size: 8px;
-  }
-
-  .reviewComment {
-    font-size: 10px;
-  }
-}
-/* Секція схожих продуктів */
 /* Секція схожих продуктів */
 .relatedProductsSection {
   max-width: 1200px;
@@ -416,8 +321,66 @@
   width: 220px; /* Фіксована ширина картки */
 }
 
-/* Адаптивність для секції схожих продуктів */
+/* Адаптивність */
 @media (max-width: 768px) {
+  .mainSection {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .imageSection {
+    padding: 15px;
+  }
+
+  .productImage {
+    max-width: 300px;
+    max-height: 200px;
+  }
+
+  .productName {
+    font-size: 24px;
+  }
+
+  .price {
+    font-size: 20px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .addToCartButton {
+    font-size: 14px;
+    padding: 10px 20px;
+    max-width: 250px;
+  }
+
+  .tabButton {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .tabContent {
+    padding: 15px;
+  }
+
+  .reviewItem {
+    padding: 10px;
+  }
+
+  .reviewAuthor,
+  .reviewRating {
+    font-size: 12px;
+  }
+
+  .reviewDate {
+    font-size: 10px;
+  }
+
+  .reviewComment {
+    font-size: 12px;
+  }
+
   .relatedProductsTitle {
     font-size: 20px;
   }
@@ -438,6 +401,54 @@
 }
 
 @media (max-width: 480px) {
+  .productName {
+    font-size: 20px;
+  }
+
+  .price {
+    font-size: 18px;
+  }
+
+  .description {
+    font-size: 12px;
+  }
+
+  .details {
+    font-size: 12px;
+  }
+
+  .addToCartButton {
+    font-size: 12px;
+    padding: 8px 16px;
+    max-width: 200px;
+  }
+
+  .tabButton {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .tabContent {
+    padding: 10px;
+  }
+
+  .reviewItem {
+    padding: 8px;
+  }
+
+  .reviewAuthor,
+  .reviewRating {
+    font-size: 10px;
+  }
+
+  .reviewDate {
+    font-size: 8px;
+  }
+
+  .reviewComment {
+    font-size: 10px;
+  }
+
   .relatedProductsTitle {
     font-size: 18px;
   }

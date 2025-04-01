@@ -24,36 +24,13 @@ interface Product {
 // Тип для відгуку
 interface Review {
   id: number;
+  product_id: number;
   author: string;
   rating: number;
   comment: string;
   date: string;
+  created_at: string;
 }
-
-// Фіктивний масив відгуків (можна замінити на реальні дані з бекенду)
-const reviewsData: Review[] = [
-  {
-    id: 1,
-    author: "John Doe",
-    rating: 5,
-    comment: "Amazing product! Works perfectly and looks great.",
-    date: "2025-03-20",
-  },
-  {
-    id: 2,
-    author: "Jane Smith",
-    rating: 4,
-    comment: "Really good quality, but the delivery took a bit long.",
-    date: "2025-03-18",
-  },
-  {
-    id: 3,
-    author: "Alex Brown",
-    rating: 3,
-    comment: "It's okay, but I expected better performance for the price.",
-    date: "2025-03-15",
-  },
-];
 
 // Параметри сторінки (отримуємо id із URL)
 interface ProductPageProps {
@@ -72,6 +49,45 @@ export default async function ProductDetails({ params }: ProductPageProps) {
   if (productError || !product) {
     return <div>Product not found</div>;
   }
+
+  // Отримуємо відгуки для цього продукту, сортуємо за датою (найновіші першими)
+  const { data: reviewsData, error: reviewsError } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("product_id", product.id)
+    .order("date", { ascending: false });
+
+  if (reviewsError) {
+    console.error("Error fetching reviews:", reviewsError);
+  }
+
+  // Обчислюємо середній рейтинг на основі відгуків
+  const averageRating =
+    reviewsData && reviewsData.length > 0
+      ? Math.round(
+          reviewsData.reduce(
+            (sum: number, review: Review) => sum + review.rating,
+            0
+          ) / reviewsData.length
+        )
+      : product.rating;
+
+  // Оновлюємо рейтинг продукту в базі даних
+  const { error: updateError } = await supabase
+    .from("products")
+    .update({ rating: averageRating, reviews: reviewsData?.length || 0 })
+    .eq("id", product.id);
+
+  if (updateError) {
+    console.error("Error updating product rating:", updateError);
+  }
+
+  // Оновлюємо продукт із новим рейтингом і кількістю відгуків
+  const updatedProduct = {
+    ...product,
+    rating: averageRating,
+    reviews: reviewsData?.length || 0,
+  };
 
   // Отримуємо схожі продукти (з тієї ж категорії, але не поточний продукт)
   const { data: relatedProducts, error: relatedError } = await supabase
@@ -96,7 +112,10 @@ export default async function ProductDetails({ params }: ProductPageProps) {
             href={`/${product.category.toLowerCase()}`}
             className={styles.breadcrumbLink}
           >
-            {product.category === "others" ? "Accessories" : product.category}
+            {product.category === "others"
+              ? "Accessories"
+              : product.category.charAt(0).toUpperCase() +
+                product.category.slice(1)}
           </Link>
           <span className={styles.breadcrumbSeparator}> &gt; </span>
           <span>{product.name}</span>
@@ -117,9 +136,12 @@ export default async function ProductDetails({ params }: ProductPageProps) {
           <h1 className={styles.productName}>{product.name}</h1>
           <div className={styles.rating}>
             <span className={styles.stars}>
-              {"★".repeat(product.rating) + "☆".repeat(5 - product.rating)}
+              {"★".repeat(updatedProduct.rating) +
+                "☆".repeat(5 - updatedProduct.rating)}
             </span>
-            <span className={styles.reviews}>Reviews ({product.reviews})</span>
+            <span className={styles.reviews}>
+              Reviews ({updatedProduct.reviews})
+            </span>
           </div>
           <div className={styles.price}>${product.price.toFixed(2)}</div>
           <div className={styles.stockStatus}>
@@ -136,7 +158,10 @@ export default async function ProductDetails({ params }: ProductPageProps) {
           <div className={styles.details}>
             <p>
               <strong>Category:</strong>{" "}
-              {product.category === "others" ? "Accessories" : product.category}
+              {product.category === "others"
+                ? "Accessories"
+                : product.category.charAt(0).toUpperCase() +
+                  product.category.slice(1)}
             </p>
             <p>
               <strong>Color:</strong> {product.color}
@@ -151,7 +176,10 @@ export default async function ProductDetails({ params }: ProductPageProps) {
       </section>
 
       {/* Вкладки для опису і відгуків */}
-      <ClientTabs reviewsData={reviewsData} description={product.description} />
+      <ClientTabs
+        reviewsData={reviewsData || []}
+        description={product.description}
+      />
 
       {/* Секція схожих продуктів у вигляді слайдера */}
       <section className={styles.relatedProductsSection}>
