@@ -24,7 +24,7 @@ export default async function Laptops() {
   const { data: laptops, error: laptopsError } = await supabase
     .from("products")
     .select("*")
-    .eq("category", "Laptops"); // Використовуємо "Laptops" з великої літери
+    .eq("category", "laptops");
 
   if (laptopsError) {
     console.error("Error fetching laptops:", laptopsError);
@@ -63,7 +63,7 @@ export default async function Laptops() {
           <Link href="/" className={styles.breadcrumbLink}>
             Home
           </Link>
-          <span className={styles.breadcrumbSeparator}> > </span>
+          <span className={styles.breadcrumbSeparator}> &gt; </span>
           <Link href="/laptops" className={styles.breadcrumbLink}>
             Laptops
           </Link>
@@ -110,8 +110,8 @@ export default async function Laptops() {
             </button>
             <button className={styles.filterButton} disabled>
               In Stock (
-              {laptops?.filter((l: Product) => l.stock === "in stock")
-                .length || 0}
+              {laptops?.filter((l: Product) => l.stock === "in stock").length ||
+                0}
               ) <span className={styles.removeFilter}>×</span>
             </button>
           </div>
