@@ -1,5 +1,6 @@
 import styles from "./Banner1.module.scss";
 import productsData from "../../data/products.json";
+import Link from "next/link";
 
 // Тип для продукту
 interface Product {
@@ -35,7 +36,9 @@ export default function Banner() {
         <span className={styles.price}>
           ${featuredProduct.price.toFixed(2)}
         </span>
-        <button className={styles.buyButton}>Buy Now</button>
+        <Link href={`/products/${featuredProduct.id}`}>
+          <button className={styles.buyButton}>Buy Now</button>
+        </Link>
       </div>
       <div className={styles.imageContent}>
         <img
