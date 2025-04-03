@@ -35,7 +35,7 @@ export default function SignInPage() {
   };
 
   return (
-    <main className="flex justify-center items-center min-h-[calc(100vh-80px)]">
+    <main className={styles.main}>
       <div className={`${styles.container} ${isSignUp ? styles.active : ""}`}>
         {/* Форма Sign Up */}
         <div className={`${styles["form-container"]} ${styles["sign-up"]}`}>
