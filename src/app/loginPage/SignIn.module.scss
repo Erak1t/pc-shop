@@ -144,6 +144,21 @@
     width: 40px;
     height: 40px;
   }
+
+  button {
+    border: 1px solid #ccc;
+    border-radius: 20%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 3px;
+    width: 40px;
+    height: 40px;
+    background: none; /* Видаляємо фон, який застосовується до всіх кнопок */
+    padding: 0; /* Видаляємо padding, який застосовується до всіх кнопок */
+    cursor: pointer; /* Зберігаємо курсор */
+    color: #333;
+  }
 }
 
 .toggle-container {
