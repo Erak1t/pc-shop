@@ -1,6 +1,9 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import styles from "./Banner1.module.scss";
-import productsData from "../../data/products.json";
 import Link from "next/link";
+import { supabase } from "../../lib/supabaseClient";
 
 // Тип для продукту
 interface Product {
@@ -18,12 +21,52 @@ interface Product {
   description?: string;
 }
 
-// Знаходимо продукт "Apple MacBook Air 13-inch M2 2023"
-const featuredProduct = productsData.find(
-  (product: Product) => product.id === 2
-) as Product;
-
 export default function Banner() {
+  const [featuredProduct, setFeaturedProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Завантажуємо продукт з Supabase
+  useEffect(() => {
+    const fetchFeaturedProduct = async () => {
+      try {
+        setLoading(true);
+        setErrorMessage(null);
+
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .eq("id", 2) // Отримуємо продукт з id=2
+          .single(); // Очікуємо один запис
+
+        if (error) {
+          console.error("Error fetching featured product:", error);
+          setErrorMessage(
+            error.message || "An error occurred while fetching the product."
+          );
+          return;
+        }
+
+        setFeaturedProduct(data);
+      } catch (err) {
+        console.error("Unexpected error:", err);
+        setErrorMessage("Unexpected error occurred while fetching product.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeaturedProduct();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (errorMessage) {
+    return <div className={styles.error}>{errorMessage}</div>;
+  }
+
   if (!featuredProduct) {
     return <div>Product not found</div>;
   }
