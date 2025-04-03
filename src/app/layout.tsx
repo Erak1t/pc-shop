@@ -1,8 +1,9 @@
 import { Montserrat } from "next/font/google";
 import Link from "next/link";
 import "./globals.scss";
-import { User, Search, ShoppingCart } from "lucide-react";
+import { Search, ShoppingCart } from "lucide-react";
 import styles from "./Navbar.module.scss";
+import AuthStatus from "../components/AuthStatus/AuthStatus";
 
 const montserrat = Montserrat({
   subsets: ["latin", "cyrillic"],
@@ -41,10 +42,7 @@ export default function RootLayout({
             <Link href="/cart" className={styles.cartLink}>
               <ShoppingCart />
             </Link>
-            <Link href="/loginPage" className={styles.loginLink}>
-              <User />
-              <span>Sign In</span>
-            </Link>
+            <AuthStatus />
           </div>
         </nav>
         {children}

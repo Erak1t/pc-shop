@@ -110,7 +110,101 @@
     }
   }
 }
+.auth-status {
+  display: flex;
+  align-items: center;
 
+  .sign-in-button {
+    background-color: #512da8; /* Як у кнопки Sign Out */
+    color: #fff;
+    font-size: 12px;
+    padding: 5px 15px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #9a23b8; /* Як у кнопки Sign Out при наведенні */
+    }
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .user-icon-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #9a23b8; /* Колір іконки */
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #512da8;
+      }
+
+      .user-icon {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .sign-out-button {
+      background-color: #512da8;
+      color: #fff;
+      font-size: 12px;
+      padding: 5px 15px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #9a23b8;
+      }
+    }
+  }
+}
+
+.loading {
+  color: #333;
+  font-size: 16px;
+}
+
+/* Адаптивність */
+@media (max-width: 480px) {
+  .auth-status {
+    .user-info {
+      gap: 8px;
+
+      .user-icon-link {
+        .user-icon {
+          width: 18px;
+          height: 18px;
+        }
+      }
+
+      .sign-out-button {
+        font-size: 10px;
+        padding: 4px 10px;
+      }
+    }
+
+    .sign-in-button {
+      font-size: 10px;
+      padding: 4px 10px;
+    }
+  }
+}
 /* Адаптивність */
 @media (max-width: 768px) {
   .navbar {
