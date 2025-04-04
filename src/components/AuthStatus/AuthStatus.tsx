@@ -18,23 +18,43 @@ export default function AuthStatus() {
       try {
         const {
           data: { user },
+          error: authError,
         } = await supabase.auth.getUser();
+        if (authError) {
+          console.error("Error fetching auth user:", authError);
+          setUser(null);
+          setUsername(null);
+          return;
+        }
+
+        console.log("Fetched user from auth:", user);
+
         if (user) {
-          const { data: userData, error } = await supabase
+          const { data: userData, error: userError } = await supabase
             .from("users")
             .select("username")
             .eq("auth_id", user.id)
             .single();
 
-          if (error) throw error;
-          setUser(user);
-          setUsername(userData?.username || null);
+          if (userError) {
+            console.error(
+              "Error fetching user data from users table:",
+              userError
+            );
+            setUser(user);
+            setUsername(null);
+          } else {
+            console.log("Fetched user data from users table:", userData);
+            setUser(user);
+            setUsername(userData?.username || null);
+          }
         } else {
+          console.log("No user found in auth session");
           setUser(null);
           setUsername(null);
         }
       } catch (error) {
-        console.error("Error fetching user:", error);
+        console.error("Unexpected error in fetchUser:", error);
       } finally {
         setLoading(false);
       }
@@ -45,6 +65,7 @@ export default function AuthStatus() {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log("Auth state changed:", _event, session);
       fetchUser();
     });
 

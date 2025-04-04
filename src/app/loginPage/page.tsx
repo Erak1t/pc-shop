@@ -7,7 +7,7 @@ import styles from "./SignIn.module.scss";
 import { Chrome, Facebook, Github, Linkedin } from "lucide-react";
 import { supabase } from "../../lib/supabaseClient";
 
-export default function SignInPage() {
+export default function LoginPage() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -82,10 +82,12 @@ export default function SignInPage() {
 
       console.log("User signed up successfully:", user);
 
+      // Ручна вставка в таблицю users
       const { error: insertError } = await supabase.from("users").insert({
         auth_id: user.id,
         email: user.email,
         username: name,
+        created_at: new Date().toISOString(),
       });
 
       if (insertError) {
