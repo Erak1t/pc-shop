@@ -10,20 +10,25 @@ interface Product {
   image: string;
   stock: string;
   rating: number;
-  reviews: number;
   price: number;
   category: string;
   color: string;
   priceRange: string;
   isNew?: boolean;
   description?: string;
+  reviews: { count: number }[]; // Оновлюємо тип для reviews
 }
 
 export default async function PartsPC() {
-  // Отримуємо комплектуючі для ПК з Supabase (фільтруємо напряму в запиті)
+  // Отримуємо комплектуючі для ПК з Supabase із підрахунком відгуків
   const { data: partsPCs, error: partsPCsError } = await supabase
     .from("products")
-    .select("*")
+    .select(
+      `
+      *,
+      reviews:reviews!product_id(count)
+    `
+    )
     .eq("category", "partspc"); // Використовуємо малі літери, як у базі даних
 
   if (partsPCsError) {
@@ -31,10 +36,15 @@ export default async function PartsPC() {
     return <div>Error loading PC parts</div>;
   }
 
-  // Отримуємо всі продукти для генерації фільтрів
+  // Отримуємо всі продукти для генерації фільтрів із підрахунком відгуків
   const { data: productsData, error: productsError } = await supabase
     .from("products")
-    .select("*");
+    .select(
+      `
+      *,
+      reviews:reviews!product_id(count)
+    `
+    );
 
   if (productsError) {
     console.error("Error fetching products for filters:", productsError);

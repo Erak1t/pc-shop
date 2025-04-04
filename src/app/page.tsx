@@ -12,18 +12,23 @@ interface Product {
   image: string;
   stock: string;
   rating: number;
-  reviews: number;
   price: number;
   category: string;
   color: string;
   priceRange: string;
   isNew?: boolean;
   description?: string;
+  reviews: { count: number }[]; // Оновлюємо тип для reviews
 }
 
 export default async function Home() {
-  // Завантажуємо всі продукти з Supabase
-  const { data: products, error } = await supabase.from("products").select("*");
+  // Завантажуємо всі продукти з Supabase із підрахунком відгуків
+  const { data: products, error } = await supabase.from("products").select(
+    `
+      *,
+      reviews:reviews!product_id(count)
+    `
+  );
 
   if (error) {
     console.error("Error fetching products:", error);

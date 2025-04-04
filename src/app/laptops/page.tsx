@@ -10,20 +10,25 @@ interface Product {
   image: string;
   stock: string;
   rating: number;
-  reviews: number;
   price: number;
   category: string;
   color: string;
   priceRange: string;
   isNew?: boolean;
   description?: string;
+  reviews: { count: number }[]; // Оновлюємо тип для reviews
 }
 
 export default async function Laptops() {
-  // Отримуємо ноутбуки з Supabase (фільтруємо напряму в запиті)
+  // Отримуємо ноутбуки з Supabase із підрахунком відгуків
   const { data: laptops, error: laptopsError } = await supabase
     .from("products")
-    .select("*")
+    .select(
+      `
+      *,
+      reviews:reviews!product_id(count)
+    `
+    )
     .eq("category", "laptops");
 
   if (laptopsError) {
@@ -31,10 +36,15 @@ export default async function Laptops() {
     return <div>Error loading laptops</div>;
   }
 
-  // Отримуємо всі продукти для генерації фільтрів
+  // Отримуємо всі продукти для генерації фільтрів із підрахунком відгуків
   const { data: productsData, error: productsError } = await supabase
     .from("products")
-    .select("*");
+    .select(
+      `
+      *,
+      reviews:reviews!product_id(count)
+    `
+    );
 
   if (productsError) {
     console.error("Error fetching products for filters:", productsError);

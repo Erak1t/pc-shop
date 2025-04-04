@@ -10,20 +10,25 @@ interface Product {
   image: string;
   stock: string;
   rating: number;
-  reviews: number;
   price: number;
   category: string;
   color: string;
   priceRange: string;
   isNew?: boolean;
   description?: string;
+  reviews: { count: number }[]; // Оновлюємо тип для reviews
 }
 
 export default async function NewProductsPage() {
-  // Завантажуємо нові продукти з Supabase
+  // Завантажуємо нові продукти з Supabase із підрахунком відгуків
   const { data: newProducts, error } = await supabase
     .from("products")
-    .select("*")
+    .select(
+      `
+      *,
+      reviews:reviews!product_id(count)
+    `
+    )
     .eq("isnew", true);
 
   if (error) {

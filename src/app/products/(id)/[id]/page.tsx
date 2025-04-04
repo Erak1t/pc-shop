@@ -12,13 +12,13 @@ interface Product {
   image: string;
   stock: string;
   rating: number;
-  reviews: number;
   price: number;
   category: string;
   color: string;
   priceRange: string;
   isNew?: boolean;
   description?: string;
+  reviews: { count: number }[]; // Оновлюємо тип для reviews
 }
 
 // Тип для відгуку
@@ -44,10 +44,15 @@ export default async function ProductDetails({ params }: ProductPageProps) {
     return <div>Invalid product ID</div>;
   }
 
-  // Отримуємо продукт за id із Supabase
+  // Отримуємо продукт за id із Supabase з підрахунком відгуків
   const { data: product, error: productError } = await supabase
     .from("products")
-    .select("*")
+    .select(
+      `
+      *,
+      reviews:reviews!product_id(count)
+    `
+    )
     .eq("id", productId)
     .single();
 
@@ -78,27 +83,31 @@ export default async function ProductDetails({ params }: ProductPageProps) {
         )
       : product.rating;
 
-  // Оновлюємо рейтинг продукту в базі даних
+  // Оновлюємо рейтинг продукту в базі даних (без reviews, оскільки колонки більше немає)
   const { error: updateError } = await supabase
     .from("products")
-    .update({ rating: averageRating, reviews: reviewsData?.length || 0 })
+    .update({ rating: averageRating })
     .eq("id", product.id);
 
   if (updateError) {
     console.error("Error updating product rating:", updateError);
   }
 
-  // Оновлюємо продукт із новим рейтингом і кількістю відгуків
+  // Оновлюємо продукт із новим рейтингом
   const updatedProduct = {
     ...product,
     rating: averageRating,
-    reviews: reviewsData?.length || 0,
   };
 
-  // Отримуємо схожі продукти (з тієї ж категорії, але не поточний продукт)
+  // Отримуємо схожі продукти (з тієї ж категорії, але не поточний продукт) з підрахунком відгуків
   const { data: relatedProducts, error: relatedError } = await supabase
     .from("products")
-    .select("*")
+    .select(
+      `
+      *,
+      reviews:reviews!product_id(count)
+    `
+    )
     .eq("category", product.category)
     .neq("id", product.id);
 
@@ -146,7 +155,7 @@ export default async function ProductDetails({ params }: ProductPageProps) {
                 "☆".repeat(5 - updatedProduct.rating)}
             </span>
             <span className={styles.reviews}>
-              Reviews ({updatedProduct.reviews})
+              Reviews ({reviewsData?.length || 0})
             </span>
           </div>
           <div className={styles.price}>${product.price.toFixed(2)}</div>
@@ -171,9 +180,6 @@ export default async function ProductDetails({ params }: ProductPageProps) {
             </p>
             <p>
               <strong>Color:</strong> {product.color}
-            </p>
-            <p>
-              <strong>Price Range:</strong> {product.priceRange}
             </p>
             {product.isNew && <p className={styles.newTag}>New Product</p>}
           </div>

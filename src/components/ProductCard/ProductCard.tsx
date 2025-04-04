@@ -8,13 +8,13 @@ interface Product {
   image: string;
   stock: string;
   rating: number;
-  reviews: number;
   price: number;
   category: string;
   color: string;
   priceRange: string;
   isNew?: boolean;
   description?: string;
+  reviews: { count: number }[]; // Оновлюємо тип для reviews
 }
 
 interface ProductCardProps {
@@ -22,6 +22,8 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const reviewCount = product.reviews[0]?.count || 0; // Отримуємо кількість відгуків
+
   return (
     <Link href={`/products/${product.id}`} className={styles.card}>
       <div className={styles.imageWrapper}>
@@ -40,7 +42,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <span className={styles.stars}>
             {"★".repeat(product.rating) + "☆".repeat(5 - product.rating)}
           </span>
-          <span className={styles.reviews}>({product.reviews})</span>
+          <span className={styles.reviews}>({reviewCount})</span>
         </div>
         <div className={styles.price}>${product.price.toFixed(2)}</div>
         <div className={styles.stock}>

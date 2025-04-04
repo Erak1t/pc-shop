@@ -10,31 +10,41 @@ interface Product {
   image: string;
   stock: string;
   rating: number;
-  reviews: number;
   price: number;
   category: string;
   color: string;
   priceRange: string;
   isNew?: boolean;
   description?: string;
+  reviews: { count: number }[]; // Оновлюємо тип для reviews
 }
 
-export default async function DesktopPCs() {
-  // Отримуємо настільні ПК з Supabase (фільтруємо напряму в запиті)
-  const { data: desktopPCs, error: desktopPCsError } = await supabase
+export default async function Laptops() {
+  // Отримуємо ноутбуки з Supabase із підрахунком відгуків
+  const { data: desktopPCs, error: laptopsError } = await supabase
     .from("products")
-    .select("*")
-    .eq("category", "desktoppc"); // Використовуємо малі літери, як у базі даних
+    .select(
+      `
+      *,
+      reviews:reviews!product_id(count)
+    `
+    )
+    .eq("category", "desktoppc");
 
-  if (desktopPCsError) {
-    console.error("Error fetching desktop PCs:", desktopPCsError);
-    return <div>Error loading desktop PCs</div>;
+  if (laptopsError) {
+    console.error("Error fetching laptops:", laptopsError);
+    return <div>Error loading laptops</div>;
   }
 
-  // Отримуємо всі продукти для генерації фільтрів
+  // Отримуємо всі продукти для генерації фільтрів із підрахунком відгуків
   const { data: productsData, error: productsError } = await supabase
     .from("products")
-    .select("*");
+    .select(
+      `
+      *,
+      reviews:reviews!product_id(count)
+    `
+    );
 
   if (productsError) {
     console.error("Error fetching products for filters:", productsError);
