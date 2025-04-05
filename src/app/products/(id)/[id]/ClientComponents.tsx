@@ -11,7 +11,7 @@ interface Product {
   image: string;
   stock: string;
   rating: number;
-  reviews: number;
+  reviews: { count: number }[];
   price: number;
   category: string;
   color: string;
