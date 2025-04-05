@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -32,35 +33,66 @@ export default function EditProfile() {
         data: { user },
         error: authError,
       } = await supabase.auth.getUser();
+
       if (authError || !user) {
         console.error("Error fetching user:", authError);
         setError("Please log in to edit your profile.");
         router.push("/loginPage");
         return;
       }
+
       setUser(user);
       console.log("Authenticated user ID:", user.id);
-      const { data, error: userError } = await supabase
+
+      let userData: UserData | null = null;
+
+      // Спробуємо знайти запис у таблиці users
+      const { data: fetchedData, error: userError } = await supabase
         .from("users")
-        .select("*")
+        .select("auth_id, email, username, full_name, created_at")
         .eq("auth_id", user.id)
-        .single();
+        .maybeSingle();
 
       if (userError) {
         console.error("Detailed error fetching user data:", userError);
         setError("Error loading user data.");
-      } else if (!userData) {
-        console.log("No user data found in users table for auth_id:", user.id);
-        setError("User data not found. Please try registering again.");
-      } else {
-        console.log("User data fetched:", userData);
-        setUserData(userData);
-        setUsername(userData.username || "");
-        setFullName(userData.full_name || "");
+        setLoading(false);
+        return;
       }
 
+      if (!fetchedData) {
+        console.log("No user data found in users table for auth_id:", user.id);
+        // Створюємо новий запис, якщо він не існує
+        const { data: insertedData, error: insertError } = await supabase
+          .from("users")
+          .insert({
+            auth_id: user.id,
+            email: user.email,
+            created_at: new Date().toISOString(),
+          })
+          .select("auth_id, email, username, full_name, created_at")
+          .single();
+
+        if (insertError) {
+          console.error("Error inserting user data:", insertError);
+          setError("Failed to create user profile. Please try again.");
+          setLoading(false);
+          return;
+        }
+
+        userData = insertedData;
+        console.log("User data inserted:", userData);
+      } else {
+        userData = fetchedData;
+        console.log("User data fetched:", userData);
+      }
+
+      setUserData(userData);
+      setUsername(userData.username || "");
+      setFullName(userData.full_name || "");
       setLoading(false);
     };
+
     fetchData();
   }, [router]);
 
@@ -71,7 +103,7 @@ export default function EditProfile() {
     setSuccess(null);
 
     if (!user) {
-      setError("User not found.");
+      setError("User not authenticated.");
       setLoading(false);
       return;
     }
@@ -80,38 +112,42 @@ export default function EditProfile() {
       const { error: updateError } = await supabase
         .from("users")
         .update({
-          username: username,
-          full_name: fullName,
+          username: username.trim(),
+          full_name: fullName.trim() || null,
           updated_at: new Date().toISOString(),
         })
         .eq("auth_id", user.id);
 
       if (updateError) {
         console.error("Error updating user data:", updateError);
-        throw new Error(updateError.message || "Error updating user data");
+        throw new Error(updateError.message || "Failed to update profile.");
       }
 
       console.log("User data updated successfully");
-      setSuccess("Profile updated successfully.");
+      setSuccess("Profile updated successfully!");
       setTimeout(() => {
         router.push("/profile");
-      }, 1500); // Redirect after 1.5 seconds
+      }, 1500);
     } catch (err: any) {
-      console.error("Error during update:", err);
+      console.error("Update failed:", err);
       setError(err.message || "An error occurred while updating your profile.");
     } finally {
       setLoading(false);
     }
   };
+
   if (loading) {
     return <div>Loading...</div>;
   }
+
   if (error) {
     return <div className={styles.error}>{error}</div>;
   }
+
   if (!user || !userData) {
     return null;
   }
+
   return (
     <main className={styles.editProfilePage}>
       <div className={styles.breadcrumb}>

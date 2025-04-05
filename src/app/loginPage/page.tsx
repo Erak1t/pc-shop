@@ -174,7 +174,7 @@ export default function LoginPage() {
               </button>
             </div>
             <span>or use your email for registration</span>
-            <input type="text" name="name" placeholder="Name" required />
+            <input type="text" name="name" placeholder="Username" required />
             <input type="email" name="email" placeholder="Email" required />
             <input
               type="password"
