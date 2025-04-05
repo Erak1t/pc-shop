@@ -4,8 +4,25 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { supabase } from "../../../../lib/supabaseClient";
 import styles from "./ProductDetails.module.scss";
 import { ClientTabs, ClientSlider } from "./ClientComponents";
+import AddToCartButton from "./AddToCartButton";
 
-// Тип для продукту
+// Тип для сирих даних із Supabase
+interface RawProduct {
+  id: number;
+  name: string;
+  image: string;
+  stock: string;
+  rating: number;
+  price: number;
+  category: string;
+  color: string;
+  priceRange: string;
+  isNew?: boolean;
+  description?: string;
+  reviews: { count: number }[];
+}
+
+// Тип для нормалізованого продукту (для ProductCard)
 interface Product {
   id: number;
   name: string;
@@ -18,7 +35,7 @@ interface Product {
   priceRange: string;
   isNew?: boolean;
   description?: string;
-  reviews: { count: number }[]; // Оновлюємо тип для reviews
+  reviews: number;
 }
 
 // Тип для відгуку
@@ -37,15 +54,19 @@ interface ProductPageProps {
   params: { id: string };
 }
 
+// Функція для нормалізації продукту
+const normalizeProduct = (rawProduct: RawProduct): Product => ({
+  ...rawProduct,
+  reviews: rawProduct.reviews[0]?.count || 0,
+});
+
 export default async function ProductDetails({ params }: ProductPageProps) {
-  // Перевіряємо, чи params.id є числом
   const productId = parseInt(params.id);
   if (isNaN(productId)) {
     return <div>Invalid product ID</div>;
   }
 
-  // Отримуємо продукт за id із Supabase з підрахунком відгуків
-  const { data: product, error: productError } = await supabase
+  const { data: rawProduct, error: productError } = await supabase
     .from("products")
     .select(
       `
@@ -56,23 +77,20 @@ export default async function ProductDetails({ params }: ProductPageProps) {
     .eq("id", productId)
     .single();
 
-  // Якщо продукт не знайдено або сталася помилка
-  if (productError || !product) {
+  if (productError || !rawProduct) {
     return <div>Product not found</div>;
   }
 
-  // Отримуємо відгуки для цього продукту, сортуємо за датою (найновіші першими)
   const { data: reviewsData, error: reviewsError } = await supabase
     .from("reviews")
     .select("*")
-    .eq("product_id", product.id)
+    .eq("product_id", rawProduct.id)
     .order("date", { ascending: false });
 
   if (reviewsError) {
     console.error("Error fetching reviews:", reviewsError);
   }
 
-  // Обчислюємо середній рейтинг на основі відгуків
   const averageRating =
     reviewsData && reviewsData.length > 0
       ? Math.round(
@@ -81,26 +99,23 @@ export default async function ProductDetails({ params }: ProductPageProps) {
             0
           ) / reviewsData.length
         )
-      : product.rating;
+      : rawProduct.rating;
 
-  // Оновлюємо рейтинг продукту в базі даних (без reviews, оскільки колонки більше немає)
   const { error: updateError } = await supabase
     .from("products")
     .update({ rating: averageRating })
-    .eq("id", product.id);
+    .eq("id", rawProduct.id);
 
   if (updateError) {
     console.error("Error updating product rating:", updateError);
   }
 
-  // Оновлюємо продукт із новим рейтингом
-  const updatedProduct = {
-    ...product,
+  const product: Product = normalizeProduct({
+    ...rawProduct,
     rating: averageRating,
-  };
+  });
 
-  // Отримуємо схожі продукти (з тієї ж категорії, але не поточний продукт) з підрахунком відгуків
-  const { data: relatedProducts, error: relatedError } = await supabase
+  const { data: rawRelatedProducts, error: relatedError } = await supabase
     .from("products")
     .select(
       `
@@ -108,12 +123,15 @@ export default async function ProductDetails({ params }: ProductPageProps) {
       reviews:reviews!product_id(count)
     `
     )
-    .eq("category", product.category)
-    .neq("id", product.id);
+    .eq("category", rawProduct.category)
+    .neq("id", rawProduct.id);
 
   if (relatedError) {
     console.error("Error fetching related products:", relatedError);
   }
+
+  const relatedProducts: Product[] =
+    rawRelatedProducts?.map(normalizeProduct) || [];
 
   return (
     <main className={styles.productPage}>
@@ -151,8 +169,7 @@ export default async function ProductDetails({ params }: ProductPageProps) {
           <h1 className={styles.productName}>{product.name}</h1>
           <div className={styles.rating}>
             <span className={styles.stars}>
-              {"★".repeat(updatedProduct.rating) +
-                "☆".repeat(5 - updatedProduct.rating)}
+              {"★".repeat(product.rating) + "☆".repeat(5 - product.rating)}
             </span>
             <span className={styles.reviews}>
               Reviews ({reviewsData?.length || 0})
@@ -183,17 +200,15 @@ export default async function ProductDetails({ params }: ProductPageProps) {
             </p>
             {product.isNew && <p className={styles.newTag}>New Product</p>}
           </div>
-          <button className={styles.addToCartButton}>Add to Cart</button>
+          <AddToCartButton productId={product.id} />
         </div>
       </section>
 
-      {/* Вкладки для опису і відгуків */}
       <ClientTabs
         reviewsData={reviewsData || []}
         description={product.description}
       />
 
-      {/* Секція схожих продуктів у вигляді слайдера */}
       <section className={styles.relatedProductsSection}>
         <div className={styles.relatedProductsHeader}>
           <h2 className={styles.relatedProductsTitle}>Related Products</h2>

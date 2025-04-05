@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { supabase } from "../../lib/supabaseClient";
+import { supabase } from "../../../lib/supabaseClient";
 import styles from "./OrderDetails.module.scss";
 import CancelOrderButton from "./CancelOrderButton";
 
