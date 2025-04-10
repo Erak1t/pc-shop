@@ -9,7 +9,7 @@ import { supabase } from "../../lib/supabaseClient";
 
 export default function CartPage() {
   const router = useRouter();
-  const { cartItems } = useCart();
+  const { cartItems, fetchCartItems } = useCart(); // Додаємо fetchCartItems
 
   // Зміна кількості товару
   const updateQuantity = async (cartItemId: number, newQuantity: number) => {
@@ -24,6 +24,7 @@ export default function CartPage() {
       if (error) throw new Error(error.message);
 
       // Оновлюємо кошик після зміни
+      await fetchCartItems();
     } catch (err: any) {
       console.error("Error updating quantity:", err);
     }
@@ -40,6 +41,7 @@ export default function CartPage() {
       if (error) throw new Error(error.message);
 
       // Оновлюємо кошик після видалення
+      await fetchCartItems();
     } catch (err: any) {
       console.error("Error removing item:", err);
     }

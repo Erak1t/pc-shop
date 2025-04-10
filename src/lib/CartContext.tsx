@@ -20,7 +20,7 @@ interface CartItem {
 interface CartContextType {
   cartItems: CartItem[];
   cartCount: number;
-  fetchCartItems: () => Promise<void>; // Додаємо fetchCartItems до типу
+  fetchCartItems: () => Promise<void>;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -54,7 +54,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           )
         `
         )
-        .eq("user_id", userId);
+        .eq("user_id", userId)
+        .order("id", { ascending: true }); // Додаємо сортування за id
 
       if (error) {
         throw new Error(error.message);
