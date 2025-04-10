@@ -1,6 +1,6 @@
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   background-color: #fff;
   padding: 16px 20px;
@@ -53,14 +53,6 @@
   display: flex;
   align-items: center;
   transition: all 0.3s ease;
-
-  /* При фокусі на searchContainer ховаємо leftSection */
-  &:focus-within {
-    ~ .leftSection {
-      display: none;
-      background-color: #ffffff;
-    }
-  }
 }
 
 .searchInput {
@@ -74,7 +66,7 @@
   transition: width 0.3s ease, background-color 0.3s ease;
 
   &:focus {
-    width: 400px;
+    width: 300px;
     background-color: #ffffff;
     outline: none;
   }
@@ -86,6 +78,12 @@
   color: #000000;
   width: 16px;
   height: 16px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #007bff;
+  }
 }
 
 .cartLink,
@@ -110,12 +108,13 @@
     }
   }
 }
+
 .auth-status {
   display: flex;
   align-items: center;
 
   .sign-in-button {
-    background-color: #512da8; /* Як у кнопки Sign Out */
+    background-color: #512da8;
     color: #fff;
     font-size: 12px;
     padding: 5px 15px;
@@ -129,7 +128,7 @@
     transition: background-color 0.3s ease;
 
     &:hover {
-      background-color: #9a23b8; /* Як у кнопки Sign Out при наведенні */
+      background-color: #9a23b8;
     }
   }
 
@@ -142,7 +141,7 @@
       display: flex;
       align-items: center;
       text-decoration: none;
-      color: #9a23b8; /* Колір іконки */
+      color: #9a23b8;
       transition: color 0.3s ease;
 
       &:hover {
@@ -180,8 +179,77 @@
   font-size: 16px;
 }
 
+.cartLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #000;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  position: relative;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    color: #007bff;
+
+    svg {
+      color: #007bff;
+    }
+  }
+}
+
+.cartCount {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #e63946;
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
 /* Адаптивність */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .leftSection {
+    flex: 1 0 100%;
+    justify-content: center;
+  }
+
+  .navLinks {
+    flex: 1 0 100%;
+    justify-content: center;
+  }
+
+  .searchInput {
+    width: 150px;
+
+    &:focus {
+      width: 200px;
+    }
+  }
+}
+
 @media (max-width: 480px) {
+  .searchInput {
+    width: 120px;
+
+    &:focus {
+      width: 150px;
+    }
+  }
+
   .auth-status {
     .user-info {
       gap: 8px;
@@ -204,74 +272,4 @@
       padding: 4px 10px;
     }
   }
-}
-/* Адаптивність */
-@media (max-width: 768px) {
-  .navbar {
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .leftSection {
-    flex: 1 0 100%;
-    justify-content: center;
-  }
-
-  .navLinks {
-    flex: 1 0 100%;
-    justify-content: center;
-  }
-
-  .searchInput {
-    width: 150px;
-
-    &:focus {
-      width: 250px;
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .searchInput {
-    width: 120px;
-
-    &:focus {
-      width: 200px;
-    }
-  }
-}
-.cartLink {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: #000;
-  text-decoration: none;
-  transition: color 0.3s ease;
-  position: relative; /* Додаємо позиціонування для лічильника */
-
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  &:hover {
-    color: #007bff;
-
-    svg {
-      color: #007bff;
-    }
-  }
-}
-
-.cartCount {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: #e63946; /* Червоний фон для лічильника */
-  color: #fff;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1;
 }
