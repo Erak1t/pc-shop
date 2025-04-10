@@ -159,12 +159,12 @@ export default async function PartsPC() {
           <div className={styles.filterGroup}>
             <h3 className={styles.filterTitle}>Price</h3>
             <ul className={styles.filterList}>
-              {priceRanges.map((range) => {
+              {priceRanges.map((range, index) => {
                 const count = productsData.filter(
                   (product: Product) => product.priceRange === range
                 ).length;
                 return (
-                  <li key={range} className={styles.filterItem}>
+                  <li key={index} className={styles.filterItem}>
                     <span className={styles.filterName}>{range}</span>
                     <span className={styles.filterCount}>({count})</span>
                   </li>

@@ -11,13 +11,13 @@ interface Product {
   image: string;
   stock: string;
   rating: number;
-  reviews: { count: number }[];
   price: number;
   category: string;
   color: string;
   priceRange: string;
   isNew?: boolean;
   description?: string;
+  reviews: number | { count: number }[];
 }
 
 // Тип для відгуку

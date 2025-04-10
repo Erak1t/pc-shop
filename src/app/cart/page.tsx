@@ -1,78 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { supabase } from "../../lib/supabaseClient";
 import styles from "./Cart.module.scss";
-
-// Тип для товару в кошику
-interface CartItem {
-  id: number;
-  user_id: string;
-  product_id: number;
-  quantity: number;
-  products: {
-    id: number;
-    name: string;
-    image: string;
-    price: number;
-  };
-}
+import { useCart } from "../../lib/CartContext";
+import { supabase } from "../../lib/supabaseClient";
 
 export default function CartPage() {
   const router = useRouter();
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // Завантаження товарів із кошика
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const { data: userData, error: userError } =
-          await supabase.auth.getUser();
-        if (userError || !userData.user) {
-          throw new Error("User not authenticated");
-        }
-
-        const userId = userData.user.id;
-
-        const { data, error } = await supabase
-          .from("cart_items")
-          .select(
-            `
-            *,
-            products (
-              id,
-              name,
-              image,
-              price
-            )
-          `
-          )
-          .eq("user_id", userId);
-
-        if (error) {
-          throw new Error(error.message);
-        }
-
-        setCartItems(data || []);
-      } catch (err: any) {
-        console.error("Error fetching cart items:", err);
-        setError(err.message || "Failed to load cart items.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCartItems();
-  }, []);
+  const { cartItems } = useCart();
 
   // Зміна кількості товару
   const updateQuantity = async (cartItemId: number, newQuantity: number) => {
-    if (newQuantity < 1) return; // Не дозволяємо кількості бути меншою за 1
+    if (newQuantity < 1) return;
 
     try {
       const { error } = await supabase
@@ -80,18 +21,11 @@ export default function CartPage() {
         .update({ quantity: newQuantity, updated_at: new Date().toISOString() })
         .eq("id", cartItemId);
 
-      if (error) {
-        throw new Error(error.message);
-      }
+      if (error) throw new Error(error.message);
 
-      setCartItems((prevItems) =>
-        prevItems.map((item) =>
-          item.id === cartItemId ? { ...item, quantity: newQuantity } : item
-        )
-      );
+      // Оновлюємо кошик після зміни
     } catch (err: any) {
       console.error("Error updating quantity:", err);
-      setError(err.message || "Failed to update quantity.");
     }
   };
 
@@ -103,16 +37,11 @@ export default function CartPage() {
         .delete()
         .eq("id", cartItemId);
 
-      if (error) {
-        throw new Error(error.message);
-      }
+      if (error) throw new Error(error.message);
 
-      setCartItems((prevItems) =>
-        prevItems.filter((item) => item.id !== cartItemId)
-      );
+      // Оновлюємо кошик після видалення
     } catch (err: any) {
       console.error("Error removing item:", err);
-      setError(err.message || "Failed to remove item.");
     }
   };
 
@@ -122,83 +51,10 @@ export default function CartPage() {
     0
   );
 
-  // Оформлення замовлення
-  const handleCheckout = async () => {
-    try {
-      const { data: userData, error: userError } =
-        await supabase.auth.getUser();
-      if (userError || !userData.user) {
-        throw new Error("User not authenticated");
-      }
-
-      const userId = userData.user.id;
-
-      // Створюємо замовлення
-      const { data: orderData, error: orderError } = await supabase
-        .from("orders")
-        .insert({
-          user_id: userId,
-          total: totalPrice,
-          created_at: new Date().toISOString(),
-          status: "Pending",
-        })
-        .select()
-        .single();
-
-      if (orderError || !orderData) {
-        throw new Error(orderError?.message || "Failed to create order");
-      }
-
-      const orderId = orderData.id;
-
-      // Додаємо товари до order_items
-      const orderItems = cartItems.map((item) => ({
-        order_id: orderId,
-        product_id: item.product_id,
-        quantity: item.quantity,
-        price: item.products.price,
-      }));
-
-      const { error: orderItemsError } = await supabase
-        .from("order_items")
-        .insert(orderItems);
-
-      if (orderItemsError) {
-        throw new Error(orderItemsError.message || "Failed to add order items");
-      }
-
-      // Очищаємо кошик
-      const { error: clearCartError } = await supabase
-        .from("cart_items")
-        .delete()
-        .eq("user_id", userId);
-
-      if (clearCartError) {
-        throw new Error(clearCartError.message || "Failed to clear cart");
-      }
-
-      // Перенаправляємо на сторінку замовлення
-      router.push(`/orders/${orderId}`);
-    } catch (err: any) {
-      console.error("Error during checkout:", err);
-      setError(err.message || "Failed to complete checkout.");
-    }
+  // Перенаправлення на сторінку Checkout
+  const handleProceedToCheckout = () => {
+    router.push("/checkout");
   };
-
-  if (loading) {
-    return <div className={styles.cartPage}>Loading...</div>;
-  }
-
-  if (error) {
-    return (
-      <div className={styles.cartPage}>
-        <p className={styles.error}>{error}</p>
-        <Link href="/" className={styles.continueShopping}>
-          Continue Shopping
-        </Link>
-      </div>
-    );
-  }
 
   return (
     <main className={styles.cartPage}>
@@ -276,7 +132,7 @@ export default function CartPage() {
               </div>
               <button
                 className={styles.checkoutButton}
-                onClick={handleCheckout}
+                onClick={handleProceedToCheckout}
               >
                 Proceed to Checkout
               </button>

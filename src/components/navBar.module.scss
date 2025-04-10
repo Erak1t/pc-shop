@@ -54,7 +54,6 @@
   align-items: center;
   transition: all 0.3s ease;
 
-  /* При фокусі на searchContainer ховаємо leftSection */
   &:focus-within {
     ~ .leftSection {
       display: none;
@@ -88,14 +87,14 @@
   height: 16px;
 }
 
-.cartLink,
-.loginLink {
+.cartLink {
   display: flex;
   align-items: center;
   gap: 4px;
   color: #000;
   text-decoration: none;
   transition: color 0.3s ease;
+  position: relative;
 
   svg {
     width: 20px;
@@ -110,12 +109,26 @@
     }
   }
 }
-.auth-status {
+
+.cartCount {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #e63946;
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.authStatus {
   display: flex;
   align-items: center;
 
-  .sign-in-button {
-    background-color: #512da8; /* Як у кнопки Sign Out */
+  .signInButton {
+    background-color: #512da8;
     color: #fff;
     font-size: 12px;
     padding: 5px 15px;
@@ -129,33 +142,33 @@
     transition: background-color 0.3s ease;
 
     &:hover {
-      background-color: #9a23b8; /* Як у кнопки Sign Out при наведенні */
+      background-color: #9a23b8;
     }
   }
 
-  .user-info {
+  .userInfo {
     display: flex;
     align-items: center;
     gap: 10px;
 
-    .user-icon-link {
+    .userIconLink {
       display: flex;
       align-items: center;
       text-decoration: none;
-      color: #9a23b8; /* Колір іконки */
+      color: #9a23b8;
       transition: color 0.3s ease;
 
       &:hover {
         color: #512da8;
       }
 
-      .user-icon {
+      .userIcon {
         width: 20px;
         height: 20px;
       }
     }
 
-    .sign-out-button {
+    .signOutButton {
       background-color: #512da8;
       color: #fff;
       font-size: 12px;
@@ -182,30 +195,30 @@
 
 /* Адаптивність */
 @media (max-width: 480px) {
-  .auth-status {
-    .user-info {
+  .authStatus {
+    .userInfo {
       gap: 8px;
 
-      .user-icon-link {
-        .user-icon {
+      .userIconLink {
+        .userIcon {
           width: 18px;
           height: 18px;
         }
       }
 
-      .sign-out-button {
+      .signOutButton {
         font-size: 10px;
         padding: 4px 10px;
       }
     }
 
-    .sign-in-button {
+    .signInButton {
       font-size: 10px;
       padding: 4px 10px;
     }
   }
 }
-/* Адаптивність */
+
 @media (max-width: 768px) {
   .navbar {
     flex-wrap: wrap;

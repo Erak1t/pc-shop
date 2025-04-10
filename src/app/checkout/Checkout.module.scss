@@ -10,11 +10,13 @@
 }
 
 .breadcrumb {
-  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
 }
 
 .breadcrumbLink {
-  font-size: 14px;
   color: #007bff;
   text-decoration: none;
 
@@ -24,286 +26,173 @@
 }
 
 .breadcrumbSeparator {
-  font-size: 14px;
   color: #666;
-  margin: 0 5px;
 }
 
 .checkoutSection {
-  margin-bottom: 40px;
-}
-
-.checkoutTitle {
-  font-size: 28px;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.checkoutContent {
-  display: flex;
-  gap: 40px;
-}
-
-.formSection {
-  flex: 2;
-}
-
-.sectionTitle {
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 15px;
-}
-
-.checkoutForm {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.formGroup {
+.checkoutTitle {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.checkoutContainer {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.shippingForm {
+  flex: 1;
+  min-width: 300px;
+}
+
+.formTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.formGroup {
+  margin-bottom: 16px;
 
   label {
+    display: block;
     font-size: 14px;
     font-weight: 500;
-    color: #333;
+    margin-bottom: 4px;
   }
 
-  input[type="text"],
-  input[type="email"],
-  input[type="tel"] {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+  input,
+  select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #000000;
+    border-radius: 4px;
     font-size: 14px;
-    color: #666;
-    background-color: #f9f9f9;
-    cursor: not-allowed; /* Поки що інпути неактивні */
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      border-color: #007bff;
+      outline: none;
+    }
   }
 
   input[type="radio"] {
+    width: auto;
     margin-right: 8px;
-    cursor: not-allowed; /* Поки що радіокнопки неактивні */
-  }
-
-  label {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 5px;
   }
 }
 
-.summarySection {
+.orderSummary {
   flex: 1;
-  background-color: #f9f9f9;
-  border-radius: 10px;
+  min-width: 300px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
 
-.orderItems {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.summaryTitle {
+  font-size: 20px;
+  font-weight: 600;
   margin-bottom: 20px;
 }
 
-.orderItem {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
+.summaryItems {
+  margin-bottom: 20px;
 
-.itemImage {
-  flex: 0 0 auto;
-}
-
-.productImage {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-  border-radius: 5px;
-}
-
-.itemDetails {
-  flex: 1;
-}
-
-.itemName {
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-  margin: 0;
-}
-
-.itemPrice {
-  font-size: 14px;
-  color: #666;
-  margin: 5px 0 0;
+  .summaryItem {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
 }
 
 .summaryDetails {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 20px;
+  border-top: 1px solid #ddd;
+  padding-top: 16px;
 
   p {
     display: flex;
     justify-content: space-between;
-    margin: 0;
+    margin-bottom: 8px;
+    font-size: 14px;
   }
 
-  span {
+  .total {
     font-weight: 600;
-    color: #333;
+    font-size: 16px;
   }
 }
 
-.total {
-  font-size: 18px;
-  font-weight: 700;
-  color: #e63946;
+.paymentMethod {
+  margin-top: 20px;
 
-  span {
-    color: #e63946;
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
   }
 }
 
-.placeOrderButton {
-  background: linear-gradient(90deg, #007bff, #00c4ff);
+.confirmButton {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
   color: #fff;
-  padding: 12px 24px;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   font-size: 16px;
   font-weight: 600;
-  cursor: not-allowed; /* Поки що кнопка неактивна */
-  width: 100%;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.5);
-    background: linear-gradient(90deg, #0056b3, #0099cc);
+    background-color: #0056b3;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
 }
 
-/* Адаптивність */
-@media (max-width: 768px) {
-  .checkoutTitle {
-    font-size: 24px;
-  }
+.error {
+  color: #e63946;
+  font-size: 14px;
+  margin-top: 12px;
+  text-align: center;
+}
 
-  .checkoutContent {
-    flex-direction: column;
-    gap: 20px;
-  }
+.emptyCart {
+  text-align: center;
+  padding: 40px 0;
 
-  .sectionTitle {
+  p {
     font-size: 18px;
-  }
-
-  .formGroup {
-    label {
-      font-size: 12px;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"] {
-      font-size: 12px;
-      padding: 8px;
-    }
-
-    label {
-      font-size: 12px;
-    }
-  }
-
-  .orderItem {
-    gap: 10px;
-  }
-
-  .productImage {
-    width: 50px;
-    height: 50px;
-  }
-
-  .itemName,
-  .itemPrice {
-    font-size: 12px;
-  }
-
-  .summaryDetails {
-    font-size: 14px;
-  }
-
-  .total {
-    font-size: 16px;
-  }
-
-  .placeOrderButton {
-    font-size: 14px;
-    padding: 10px 20px;
+    margin-bottom: 20px;
   }
 }
 
-@media (max-width: 480px) {
-  .checkoutTitle {
-    font-size: 20px;
-  }
+.continueShopping {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 16px;
 
-  .sectionTitle {
-    font-size: 16px;
-  }
-
-  .formGroup {
-    label {
-      font-size: 10px;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"] {
-      font-size: 10px;
-      padding: 6px;
-    }
-
-    label {
-      font-size: 10px;
-    }
-  }
-
-  .productImage {
-    width: 40px;
-    height: 40px;
-  }
-
-  .itemName,
-  .itemPrice {
-    font-size: 10px;
-  }
-
-  .summaryDetails {
-    font-size: 12px;
-  }
-
-  .total {
-    font-size: 14px;
-  }
-
-  .placeOrderButton {
-    font-size: 12px;
-    padding: 8px 16px;
+  &:hover {
+    text-decoration: underline;
   }
 }

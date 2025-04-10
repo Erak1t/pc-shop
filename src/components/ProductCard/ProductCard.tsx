@@ -14,7 +14,7 @@ interface Product {
   priceRange: string;
   isNew?: boolean;
   description?: string;
-  reviews: { count: number }[]; // Оновлюємо тип для reviews
+  reviews: number | { count: number }[];
 }
 
 interface ProductCardProps {
@@ -22,7 +22,10 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const reviewCount = product.reviews[0]?.count || 0; // Отримуємо кількість відгуків
+  const reviewCount =
+    Array.isArray(product.reviews) && product.reviews[0]?.count
+      ? product.reviews[0].count
+      : 0; // Отримуємо кількість відгуків
 
   return (
     <Link href={`/products/${product.id}`} className={styles.card}>
