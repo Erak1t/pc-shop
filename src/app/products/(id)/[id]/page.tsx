@@ -35,7 +35,7 @@ interface Product {
   priceRange: string;
   isNew?: boolean;
   description?: string;
-  reviews: number;
+  reviews: number | { count: number }[];
 }
 
 // Тип для відгуку
@@ -131,7 +131,7 @@ export default async function ProductDetails({ params }: ProductPageProps) {
   }
 
   const relatedProducts: Product[] =
-    rawRelatedProducts?.map(normalizeProduct) || [];
+      rawRelatedProducts?.map((raw) => normalizeProduct(raw)) || [];
 
   return (
     <main className={styles.productPage}>
