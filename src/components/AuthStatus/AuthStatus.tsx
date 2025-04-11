@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { User } from "lucide-react";
 import { supabase } from "../../lib/supabaseClient";
-import styles from "../Navbar.module.scss";
+import styles from "../navbar.module.scss";
 
 export default function AuthStatus() {
   const [user, setUser] = useState<any>(null);

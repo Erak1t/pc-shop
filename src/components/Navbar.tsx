@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Search, ShoppingCart, Menu, X } from "lucide-react";
-import styles from "./Navbar.module.scss";
+import styles from "./navbar.module.scss";
 import AuthStatus from "./AuthStatus/AuthStatus";
 import { useCart } from "../lib/CartContext";
 import { useRouter } from "next/navigation";
