@@ -1,21 +1,25 @@
 import Link from "next/link";
+import { notFound } from "next/navigation"; // Для обробки 404
 import { supabase } from "../../../lib/supabaseClient";
 import styles from "./OrderDetails.module.scss";
 import CancelOrderButton from "./CancelOrderButton";
 
 // Тип для продукту в замовленні
+interface Product {
+  id: number;
+  name: string;
+  image: string;
+  price: number;
+}
+
+// Тип для елемента замовлення
 interface OrderItem {
   id: number;
   order_id: number;
   product_id: number;
   quantity: number;
   price: number;
-  products: {
-    id: number;
-    name: string;
-    image: string;
-    price: number;
-  };
+  products: Product;
 }
 
 // Тип для замовлення
@@ -37,12 +41,12 @@ export default async function OrderDetails({ params }: OrderDetailsProps) {
   // Перевіряємо, чи params.id є числом
   const orderId = parseInt(params.id);
   if (isNaN(orderId)) {
-    return <div>Invalid order ID</div>;
+    notFound(); // Повертаємо 404, якщо ID некоректний
   }
 
   // Отримуємо замовлення за id із Supabase разом із продуктами
   const { data: order, error: orderError } = await supabase
-    .from("orders")
+    .from<Order>("orders")
     .select(
       `
       *,
@@ -62,11 +66,11 @@ export default async function OrderDetails({ params }: OrderDetailsProps) {
 
   // Якщо замовлення не знайдено або сталася помилка
   if (orderError || !order) {
-    console.error("Error fetching order:", orderError);
-    return <div>Order not found</div>;
+    console.error("Error fetching order:", orderError?.message);
+    notFound(); // Повертаємо 404
   }
 
-  // Перетворюємо замовлення у тип Order
+  // Перетворюємо замовлення у тип Order (не потрібно, якщо типізовано через from<Order>)
   const orderData: Order = order;
 
   return (
@@ -119,24 +123,29 @@ export default async function OrderDetails({ params }: OrderDetailsProps) {
             {orderData.order_items.map((item) => (
               <div key={item.id} className={styles.item}>
                 <div className={styles.itemImage}>
-                  <img
-                    src={item.products.image}
-                    alt={item.products.name}
-                    className={styles.productImage}
-                  />
+                  {item.products?.image ? (
+                    <img
+                      src={item.products.image}
+                      alt={item.products.name}
+                      className={styles.productImage}
+                    />
+                  ) : (
+                    <div className={styles.placeholderImage}>No Image</div>
+                  )}
                 </div>
                 <div className={styles.itemDetails}>
                   <Link
-                    href={`/product/${item.product_id}`}
+                    href={`/products/${item.product_id}`}
                     className={styles.itemName}
                   >
-                    {item.products.name}
+                    {item.products?.name || "Unknown Product"}
                   </Link>
                   <p>
                     <strong>Quantity:</strong> {item.quantity}
                   </p>
                   <p>
-                    <strong>Price per unit:</strong> ${item.price.toFixed(2)}
+                    <strong>Price per unit:</strong> $
+                    {(item.price || 0).toFixed(2)}
                   </p>
                   <p>
                     <strong>Subtotal:</strong> $
