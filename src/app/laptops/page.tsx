@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ProductCard from "../../components/ProductCard/ProductCard";
-import styles from "./Laptops.module.scss";
+import styles from "./laptops.module.scss";
 import { supabase } from "../../lib/supabaseClient";
 import { Grid, List, ChevronLeft, ChevronRight } from "lucide-react";
 import Slider from "rc-slider";
