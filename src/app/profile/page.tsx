@@ -35,19 +35,6 @@ export default function Profile() {
       setLoading(true);
       setError(null);
 
-      // Тестовий запит для перевірки підключення
-      const { data: testData, error: testError } = await supabase
-        .from("users")
-        .select("auth_id")
-        .limit(1);
-
-      if (testError) {
-        console.error("Test query error:", testError);
-        setError("Error connecting to database.");
-        setLoading(false);
-        return;
-      }
-
       const {
         data: { user },
         error: authError,
