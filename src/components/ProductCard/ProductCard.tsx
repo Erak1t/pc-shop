@@ -22,10 +22,13 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  // Отримуємо кількість відгуків, враховуючи різні формати
   const reviewCount =
-    Array.isArray(product.reviews) && product.reviews[0]?.count
+    typeof product.reviews === "number"
+      ? product.reviews
+      : Array.isArray(product.reviews) && product.reviews[0]?.count
       ? product.reviews[0].count
-      : 0; // Отримуємо кількість відгуків
+      : 0;
 
   return (
     <Link href={`/products/${product.id}`} className={styles.card}>
