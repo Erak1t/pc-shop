@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, ShoppingCart } from "lucide-react";
+import { Search, ShoppingCart, Menu, X } from "lucide-react";
 import styles from "./Navbar.module.scss";
 import AuthStatus from "./AuthStatus/AuthStatus";
 import { useCart } from "../lib/CartContext";
@@ -12,6 +12,7 @@ export default function Navbar() {
   const { cartCount } = useCart();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState(""); // Стан для пошукового запиту
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Стан для бургер-меню
 
   // Обробка введення в поле пошуку
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,6 +24,7 @@ export default function Navbar() {
     e.preventDefault();
     if (searchQuery.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setIsMenuOpen(false); // Закриваємо меню після пошуку
     }
   };
 
@@ -30,7 +32,13 @@ export default function Navbar() {
   const handleSearchClick = () => {
     if (searchQuery.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setIsMenuOpen(false); // Закриваємо меню після пошуку
     }
+  };
+
+  // Перемикання бургер-меню
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   return (
@@ -39,11 +47,37 @@ export default function Navbar() {
         <Link href="/" className={styles.logo}>
           PC-Shop
         </Link>
-        <div className={styles.navLinks}>
-          <Link href="/laptops">Laptops</Link>
-          <Link href="/desktopPCs">Desktop PCs</Link>
-          <Link href="/partsPC">PC Parts</Link>
-          <Link href="/others">All Other Products</Link>
+        <button className={styles.menuToggle} onClick={toggleMenu}>
+          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+        <div
+          className={`${styles.navLinks} ${isMenuOpen ? styles.active : ""}`}
+        >
+          <Link href="/laptops" onClick={() => setIsMenuOpen(false)}>
+            Laptops
+          </Link>
+          <Link href="/desktopPCs" onClick={() => setIsMenuOpen(false)}>
+            Desktop PCs
+          </Link>
+          <Link href="/partsPC" onClick={() => setIsMenuOpen(false)}>
+            PC Parts
+          </Link>
+          <Link href="/others" onClick={() => setIsMenuOpen(false)}>
+            All Other Products
+          </Link>
+          <form
+            onSubmit={handleSearchSubmit}
+            className={styles.searchContainerMobile}
+          >
+            <Search className={styles.searchIcon} onClick={handleSearchClick} />
+            <input
+              type="text"
+              className={styles.searchInput}
+              placeholder="Search"
+              value={searchQuery}
+              onChange={handleSearchInput}
+            />
+          </form>
         </div>
       </div>
       <div className={styles.rightSection}>

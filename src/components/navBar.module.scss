@@ -1,10 +1,12 @@
 .navbar {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   background-color: #ffffff;
   padding: 16px 20px;
   gap: 16px;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .leftSection {
@@ -55,6 +57,17 @@
   transition: all 0.3s ease;
 }
 
+.searchContainerMobile {
+  position: relative;
+  background-color: #f1f1f1;
+  color: #000;
+  display: none;
+  align-items: center;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 10px;
+}
+
 .searchInput {
   padding: 8px 8px 8px 32px;
   border: none;
@@ -86,14 +99,14 @@
   }
 }
 
-.cartLink,
-.loginLink {
+.cartLink {
   display: flex;
   align-items: center;
   gap: 4px;
   color: #000;
   text-decoration: none;
   transition: color 0.3s ease;
+  position: relative;
 
   svg {
     width: 20px;
@@ -107,6 +120,19 @@
       color: #007bff;
     }
   }
+}
+
+.cartCount {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #e63946;
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .auth-status {
@@ -179,78 +205,111 @@
   font-size: 16px;
 }
 
-.cartLink {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+.menuToggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
   color: #000;
-  text-decoration: none;
-  transition: color 0.3s ease;
-  position: relative;
-
-  svg {
-    width: 20px;
-    height: 20px;
-  }
 
   &:hover {
     color: #007bff;
-
-    svg {
-      color: #007bff;
-    }
   }
-}
 
-.cartCount {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: #e63946;
-  color: #fff;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1;
+  svg {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 /* Адаптивність */
 @media (max-width: 768px) {
   .navbar {
     flex-wrap: wrap;
-    gap: 8px;
+    padding: 12px 16px;
+    position: relative;
   }
 
   .leftSection {
     flex: 1 0 100%;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .menuToggle {
+    display: block;
   }
 
   .navLinks {
-    flex: 1 0 100%;
-    justify-content: center;
-  }
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    gap: 12px;
 
-  .searchInput {
-    width: 150px;
+    &.active {
+      display: flex;
+    }
 
-    &:focus {
-      width: 200px;
+    a {
+      font-size: 14px;
+      padding: 8px 0;
     }
   }
-}
 
-@media (max-width: 480px) {
+  .searchContainerMobile {
+    display: flex;
+  }
+
+  .searchContainer {
+    display: none;
+  }
+
+  .rightSection {
+    gap: 12px;
+  }
+
   .searchInput {
-    width: 120px;
+    width: 100%;
+    font-size: 12px;
+    padding: 6px 6px 6px 28px;
 
     &:focus {
-      width: 150px;
+      width: 100%;
+    }
+  }
+
+  .searchIcon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .cartLink {
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .cartCount {
+      top: -6px;
+      right: -6px;
+      font-size: 10px;
+      padding: 1px 4px;
     }
   }
 
   .auth-status {
+    .sign-in-button {
+      font-size: 10px;
+      padding: 4px 12px;
+    }
+
     .user-info {
       gap: 8px;
 
@@ -263,13 +322,71 @@
 
       .sign-out-button {
         font-size: 10px;
-        padding: 4px 10px;
+        padding: 4px 12px;
       }
     }
+  }
+}
 
+@media (max-width: 480px) {
+  .navbar {
+    padding: 10px 12px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  .navLinks {
+    top: 50px;
+    padding: 12px;
+
+    a {
+      font-size: 12px;
+    }
+  }
+
+  .menuToggle {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .cartLink {
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .cartCount {
+      top: -4px;
+      right: -4px;
+      font-size: 8px;
+      padding: 1px 3px;
+    }
+  }
+
+  .auth-status {
     .sign-in-button {
-      font-size: 10px;
-      padding: 4px 10px;
+      font-size: 8px;
+      padding: 3px 8px;
+    }
+
+    .user-info {
+      gap: 6px;
+
+      .user-icon-link {
+        .user-icon {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .sign-out-button {
+        font-size: 8px;
+        padding: 3px 8px;
+      }
     }
   }
 }
