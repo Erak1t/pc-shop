@@ -92,7 +92,7 @@ export default function SearchPage() {
       </section>
 
       <section className={styles.searchSection}>
-        <h1 className={styles.searchTitle}>Search Results for "{query}"</h1>
+        <h1 className={styles.searchTitle}>Search Results for '{query}'</h1>
         {loading ? (
           <p className={styles.loading}>Loading...</p>
         ) : error ? (
@@ -105,7 +105,7 @@ export default function SearchPage() {
           </div>
         ) : (
           <div className={styles.noResults}>
-            <p>No products found for "{query}".</p>
+            <p>No products found for '{query}'.</p>
             <Link href="/" className={styles.continueShopping}>
               Continue Shopping
             </Link>

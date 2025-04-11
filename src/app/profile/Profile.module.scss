@@ -4,6 +4,7 @@
   text-align: center;
   margin: 20px 0;
   font-weight: 500;
+  min-height: 100vh;
   animation: loadingAnimation 1.5s infinite;
   @keyframes loadingAnimation {
     0% {
@@ -19,7 +20,6 @@
   @media (max-width: 600px) {
     font-size: 14px;
   }
-  min-height: 100vh;
 }
 .profilePage {
   max-width: 1200px;
