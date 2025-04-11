@@ -46,7 +46,7 @@ export default async function OrderDetails({ params }: OrderDetailsProps) {
 
   // Отримуємо замовлення за id із Supabase разом із продуктами
   const { data: order, error: orderError } = await supabase
-    .from("orders")
+    .from<Order>("orders")
     .select(
       `
       *,
