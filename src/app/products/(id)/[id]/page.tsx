@@ -131,7 +131,7 @@ export default async function ProductDetails({ params }: ProductPageProps) {
   }
 
   const relatedProducts: Product[] =
-      rawRelatedProducts?.map((raw) => normalizeProduct(raw)) || [];
+    rawRelatedProducts?.map((raw) => normalizeProduct(raw)) || [];
 
   return (
     <main className={styles.productPage}>

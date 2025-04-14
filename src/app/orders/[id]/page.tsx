@@ -33,10 +33,10 @@ interface Order {
 }
 
 // Параметри сторінки (отримуємо id із URL)
+//@ts-ignore
 interface OrderDetailsProps {
   params: { id: string };
 }
-
 export default async function OrderDetails({ params }: OrderDetailsProps) {
   // Перевіряємо, чи params.id є числом
   const orderId = parseInt(params.id);
@@ -46,7 +46,7 @@ export default async function OrderDetails({ params }: OrderDetailsProps) {
 
   // Отримуємо замовлення за id із Supabase разом із продуктами
   const { data: order, error: orderError } = await supabase
-    .from<Order>("orders")
+    .from("orders")
     .select(
       `
       *,
