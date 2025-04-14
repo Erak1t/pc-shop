@@ -33,11 +33,15 @@ interface Order {
 }
 
 // Параметри сторінки (отримуємо id із URL)
-//@ts-ignore
+
 interface OrderDetailsProps {
   params: { id: string };
 }
-export default async function OrderDetails({ params }: OrderDetailsProps) {
+export default async function OrderDetails({
+  params,
+}: {
+  params: { id: string };
+}) {
   // Перевіряємо, чи params.id є числом
   const orderId = parseInt(params.id);
   if (isNaN(orderId)) {
