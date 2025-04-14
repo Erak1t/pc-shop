@@ -1,10 +1,10 @@
+import { notFound } from "next/navigation";
 import Link from "next/link";
-import { notFound } from "next/navigation"; // Для обробки 404
 import { supabase } from "../../../lib/supabaseClient";
 import styles from "./OrderDetails.module.scss";
 import CancelOrderButton from "./CancelOrderButton";
 
-// Тип для продукту в замовленні
+// Типи для даних
 interface Product {
   id: number;
   name: string;
@@ -12,7 +12,6 @@ interface Product {
   price: number;
 }
 
-// Тип для елемента замовлення
 interface OrderItem {
   id: number;
   order_id: number;
@@ -22,7 +21,6 @@ interface OrderItem {
   products: Product;
 }
 
-// Тип для замовлення
 interface Order {
   id: number;
   user_id: string;
@@ -32,23 +30,19 @@ interface Order {
   order_items: OrderItem[];
 }
 
-// Параметри сторінки (отримуємо id із URL)
-
-interface OrderDetailsProps {
-  params: { id: string };
+// Використовуємо типи Next.js для params
+interface PageProps {
+  params: Promise<{ id: string }>; // params тепер враховує асинхронність
 }
-export default async function OrderDetails({
-  params,
-}: {
-  params: { id: string };
-}) {
-  // Перевіряємо, чи params.id є числом
-  const orderId = parseInt(params.id);
+
+export default async function OrderDetails({ params }: PageProps) {
+  const resolvedParams = await params; // Розгортаємо Promise
+  const orderId = parseInt(resolvedParams.id);
+
   if (isNaN(orderId)) {
-    notFound(); // Повертаємо 404, якщо ID некоректний
+    notFound();
   }
 
-  // Отримуємо замовлення за id із Supabase разом із продуктами
   const { data: order, error: orderError } = await supabase
     .from("orders")
     .select(
@@ -68,13 +62,11 @@ export default async function OrderDetails({
     .eq("id", orderId)
     .single();
 
-  // Якщо замовлення не знайдено або сталася помилка
   if (orderError || !order) {
     console.error("Error fetching order:", orderError?.message);
-    notFound(); // Повертаємо 404
+    notFound();
   }
 
-  // Перетворюємо замовлення у тип Order (не потрібно, якщо типізовано через from<Order>)
   const orderData: Order = order;
 
   return (

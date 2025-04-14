@@ -51,7 +51,7 @@ interface Review {
 
 // Параметри сторінки (отримуємо id із URL)
 interface ProductPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>; // Оновлюємо тип params
 }
 
 // Функція для нормалізації продукту
@@ -61,7 +61,9 @@ const normalizeProduct = (rawProduct: RawProduct): Product => ({
 });
 
 export default async function ProductDetails({ params }: ProductPageProps) {
-  const productId = parseInt(params.id);
+  const resolvedParams = await params; // Розгортаємо Promise
+  const productId = parseInt(resolvedParams.id);
+
   if (isNaN(productId)) {
     return <div>Invalid product ID</div>;
   }
